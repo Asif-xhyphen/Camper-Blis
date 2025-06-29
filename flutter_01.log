@@ -1,0 +1,94 @@
+Flutter crash report.
+Please report a bug at https://github.com/flutter/flutter/issues.
+
+## command
+
+flutter run --machine --start-paused -d chrome --devtools-server-address http://127.0.0.1:9100/ --target /Users/muhammadasifjawed/Desktop/Projects/camper_blis/lib/main.dart
+
+## exception
+
+StateError: Bad state: No running isolate (inspector is not set).
+
+```
+#0      ChromeProxyService.inspector (package:dwds/src/services/chrome_proxy_service.dart:79:7)
+#1      _waitForResumeEventToRunMain.<anonymous closure> (package:dwds/src/dwds_vm_client.dart:464:30)
+#2      _rootRunUnary (dart:async/zone.dart:1546:13)
+#3      _CustomZone.runUnary (dart:async/zone.dart:1429:19)
+#4      _CustomZone.runUnaryGuarded (dart:async/zone.dart:1329:7)
+#5      _BufferingStreamSubscription._sendData (dart:async/stream_impl.dart:381:11)
+#6      _DelayedData.perform (dart:async/stream_impl.dart:573:14)
+#7      _PendingEvents.handleNext (dart:async/stream_impl.dart:678:11)
+#8      _PendingEvents.schedule.<anonymous closure> (dart:async/stream_impl.dart:649:7)
+#9      StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:207:15)
+#10     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:48)
+#11     _rootRun (dart:async/zone.dart:1517:47)
+#12     _CustomZone.run (dart:async/zone.dart:1422:19)
+#13     _CustomZone.runGuarded (dart:async/zone.dart:1321:7)
+#14     _CustomZone.bindCallbackGuarded.<anonymous closure> (dart:async/zone.dart:1362:23)
+#15     StackZoneSpecification._run (package:stack_trace/src/stack_zone_specification.dart:207:15)
+#16     StackZoneSpecification._registerCallback.<anonymous closure> (package:stack_trace/src/stack_zone_specification.dart:114:48)
+#17     _rootRun (dart:async/zone.dart:1525:13)
+#18     _CustomZone.run (dart:async/zone.dart:1422:19)
+#19     _CustomZone.runGuarded (dart:async/zone.dart:1321:7)
+#20     _CustomZone.bindCallbackGuarded.<anonymous closure> (dart:async/zone.dart:1362:23)
+#21     _microtaskLoop (dart:async/schedule_microtask.dart:40:21)
+#22     _startMicrotaskLoop (dart:async/schedule_microtask.dart:49:5)
+#23     _runPendingImmediateCallback (dart:isolate-patch/isolate_patch.dart:128:13)
+#24     _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:195:5)
+```
+
+## flutter doctor
+
+```
+[✓] Flutter (Channel stable, 3.29.2, on macOS 15.5 24F74 darwin-arm64, locale en-US) [3.8s]
+    • Flutter version 3.29.2 on channel stable at /Users/muhammadasifjawed/developer/flutter
+    • Upstream repository https://github.com/flutter/flutter.git
+    • Framework revision c236373904 (4 months ago), 2025-03-13 16:17:06 -0400
+    • Engine revision 18b71d647a
+    • Dart version 3.7.2
+    • DevTools version 2.42.3
+
+[✓] Android toolchain - develop for Android devices (Android SDK version 35.0.0) [7.9s]
+    • Android SDK at /Users/muhammadasifjawed/Library/Android/sdk
+    • Platform android-35, build-tools 35.0.0
+    • Java binary at: /Library/Java/JavaVirtualMachines/openlogic-openjdk-17.jdk/Contents/Home/bin/java
+      This JDK is specified in your Flutter configuration.
+      To change the current JDK, run: `flutter config --jdk-dir="path/to/jdk"`.
+    • Java version OpenJDK Runtime Environment OpenLogic-OpenJDK (build 17.0.13+11-adhoc.admin.jdk17u)
+    • All Android licenses accepted.
+
+[✓] Xcode - develop for iOS and macOS (Xcode 16.4) [1,504ms]
+    • Xcode at /Applications/Xcode.app/Contents/Developer
+    • Build 16F6
+    • CocoaPods version 1.16.2
+
+[✓] Chrome - develop for the web [6ms]
+    • Chrome at /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+
+[✓] Android Studio (version 2024.2) [5ms]
+    • Android Studio at /Applications/Android Studio.app/Contents
+    • Flutter plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/9212-flutter
+    • Dart plugin can be installed from:
+      🔨 https://plugins.jetbrains.com/plugin/6351-dart
+    • Java version OpenJDK Runtime Environment (build 21.0.3+-79915917-b509.11)
+
+[✓] VS Code (version 1.101.1) [4ms]
+    • VS Code at /Applications/Visual Studio Code.app/Contents
+    • Flutter extension version 3.112.0
+
+[✓] Connected device (6 available) [6.6s]
+    • Muhammad asif Jawed’s iPhone (wireless) (mobile) • 00008130-000E61EA14A0001C            • ios            • iOS 18.5 22F76
+    • iPhone 15 Pro Max (mobile)                       • D24D6712-E946-42AD-B614-29FF01B4AB9E • ios            • com.apple.CoreSimulator.SimRuntime.iOS-17-5 (simulator)
+    • iPhone 16 Pro Max (mobile)                       • 20CE0F88-D5DE-4BEB-B6E3-AD410810C196 • ios            • com.apple.CoreSimulator.SimRuntime.iOS-18-0 (simulator)
+    • macOS (desktop)                                  • macos                                • darwin-arm64   • macOS 15.5 24F74 darwin-arm64
+    • Mac Designed for iPad (desktop)                  • mac-designed-for-ipad                • darwin         • macOS 15.5 24F74 darwin-arm64
+    • Chrome (web)                                     • chrome                               • web-javascript • Google Chrome 137.0.7151.69
+    ! Error: Browsing on the local area network for Asif phone. Ensure the device is unlocked and attached with a cable or associated with the same local area network as this Mac.
+      The device must be opted into Developer Mode to connect wirelessly. (code -27)
+
+[✓] Network resources [643ms]
+    • All expected network resources are available.
+
+• No issues found!
+```
