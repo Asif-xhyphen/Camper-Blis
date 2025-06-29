@@ -3,7 +3,6 @@ import '../theme/colors.dart';
 import '../constants/dimensions.dart';
 import '../theme/text_styles.dart';
 
-/// A widget that displays connectivity status and handles offline states
 class ConnectivityWidget extends StatelessWidget {
   final Widget child;
   final bool isConnected;
@@ -73,7 +72,6 @@ class ConnectivityWidget extends StatelessWidget {
   }
 }
 
-/// A widget that displays loading state with optional message
 class StateLoadingWidget extends StatelessWidget {
   final String message;
   final bool showProgress;
@@ -110,7 +108,6 @@ class StateLoadingWidget extends StatelessWidget {
   }
 }
 
-/// A widget that displays success state with message and optional action
 class StateSuccessWidget extends StatelessWidget {
   final String message;
   final IconData? icon;
@@ -160,7 +157,6 @@ class StateSuccessWidget extends StatelessWidget {
   }
 }
 
-/// A widget that handles multiple states (loading, error, success, empty)
 class MultiStateWidget extends StatelessWidget {
   final bool isLoading;
   final String? errorMessage;
@@ -220,7 +216,6 @@ class MultiStateWidget extends StatelessWidget {
   }
 }
 
-/// Enhanced error widget that matches app design
 class AppErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;

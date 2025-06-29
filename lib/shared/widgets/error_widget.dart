@@ -4,7 +4,6 @@ import '../theme/text_styles.dart';
 import '../constants/dimensions.dart';
 import '../constants/strings.dart';
 
-/// Generic error widget with retry functionality
 class AppErrorWidget extends StatelessWidget {
   final String? title;
   final String? message;
@@ -65,7 +64,6 @@ class AppErrorWidget extends StatelessWidget {
   }
 }
 
-/// Network error widget
 class NetworkErrorWidget extends StatelessWidget {
   final VoidCallback? onRetry;
 
@@ -82,7 +80,6 @@ class NetworkErrorWidget extends StatelessWidget {
   }
 }
 
-/// No data error widget
 class NoDataWidget extends StatelessWidget {
   final String? title;
   final String? message;
@@ -109,7 +106,6 @@ class NoDataWidget extends StatelessWidget {
   }
 }
 
-/// Server error widget
 class ServerErrorWidget extends StatelessWidget {
   final VoidCallback? onRetry;
 
@@ -126,7 +122,6 @@ class ServerErrorWidget extends StatelessWidget {
   }
 }
 
-/// Location permission error widget
 class LocationErrorWidget extends StatelessWidget {
   final VoidCallback? onRetry;
 
@@ -144,7 +139,6 @@ class LocationErrorWidget extends StatelessWidget {
   }
 }
 
-/// Small inline error widget
 class InlineErrorWidget extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
@@ -202,7 +196,6 @@ class InlineErrorWidget extends StatelessWidget {
   }
 }
 
-/// Empty state widget for when lists are empty
 class EmptyStateWidget extends StatelessWidget {
   final String? title;
   final String? message;
@@ -258,7 +251,6 @@ class EmptyStateWidget extends StatelessWidget {
   }
 }
 
-/// No campsites found widget
 class NoCampsitesWidget extends StatelessWidget {
   final VoidCallback? onClearFilters;
   final bool hasActiveFilters;
@@ -289,7 +281,6 @@ class NoCampsitesWidget extends StatelessWidget {
   }
 }
 
-/// Connection timeout widget
 class TimeoutErrorWidget extends StatelessWidget {
   final VoidCallback? onRetry;
 

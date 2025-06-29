@@ -4,9 +4,7 @@ import 'colors.dart';
 import 'text_styles.dart';
 import '../constants/dimensions.dart';
 
-/// Application theme following the design specification
 class AppTheme {
-  /// Light theme configuration
   static ThemeData get lightTheme {
     final colorScheme = LightColorScheme.colorScheme;
 
@@ -15,7 +13,6 @@ class AppTheme {
       colorScheme: colorScheme,
       fontFamily: AppTextStyles.fontFamily,
 
-      // Typography
       textTheme: TextTheme(
         displayLarge: AppTextStyles.headingLarge,
         displayMedium: AppTextStyles.headingMedium,
@@ -34,7 +31,6 @@ class AppTheme {
         labelSmall: AppTextStyles.caption,
       ),
 
-      // App Bar Theme
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.background,
         foregroundColor: AppColors.textPrimary,
@@ -45,7 +41,6 @@ class AppTheme {
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
 
-      // Card Theme
       cardTheme: CardTheme(
         color: AppColors.background,
         elevation: Dimensions.cardElevation,
@@ -55,7 +50,6 @@ class AppTheme {
         clipBehavior: Clip.antiAlias,
       ),
 
-      // Elevated Button Theme
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
@@ -73,7 +67,6 @@ class AppTheme {
         ),
       ),
 
-      // Outlined Button Theme
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -90,7 +83,6 @@ class AppTheme {
         ),
       ),
 
-      // Text Button Theme
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.primary,
@@ -105,7 +97,6 @@ class AppTheme {
         ),
       ),
 
-      // Input Decoration Theme
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
@@ -132,7 +123,6 @@ class AppTheme {
         ),
       ),
 
-      // Chip Theme
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.surface,
         selectedColor: AppColors.primary,
@@ -154,7 +144,6 @@ class AppTheme {
         showCheckmark: false,
       ),
 
-      // Bottom Navigation Bar Theme
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: AppColors.background,
         selectedItemColor: AppColors.primary,
@@ -165,7 +154,6 @@ class AppTheme {
         elevation: 8,
       ),
 
-      // Floating Action Button Theme
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textOnPrimary,
@@ -175,16 +163,13 @@ class AppTheme {
         elevation: Dimensions.cardElevation,
       ),
 
-      // Icon Theme
       iconTheme: const IconThemeData(color: AppColors.textSecondary, size: 24),
 
-      // Primary Icon Theme
       primaryIconTheme: const IconThemeData(
         color: AppColors.textOnPrimary,
         size: 24,
       ),
 
-      // Divider Theme
       dividerTheme: const DividerThemeData(
         color: AppColors.border,
         thickness: Dimensions.dividerThickness,
@@ -193,7 +178,6 @@ class AppTheme {
         endIndent: Dimensions.dividerIndent,
       ),
 
-      // List Tile Theme
       listTileTheme: ListTileThemeData(
         tileColor: AppColors.surfaceWhite,
         selectedTileColor: AppColors.primaryGreenLight.withOpacity(0.1),
@@ -203,7 +187,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
 
-      // Bottom Sheet Theme
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppColors.background,
         shape: const RoundedRectangleBorder(
@@ -214,7 +197,6 @@ class AppTheme {
         clipBehavior: Clip.antiAlias,
       ),
 
-      // Dialog Theme
       dialogTheme: DialogTheme(
         backgroundColor: AppColors.background,
         shape: RoundedRectangleBorder(
@@ -224,7 +206,6 @@ class AppTheme {
         contentTextStyle: AppTextStyles.bodyMedium,
       ),
 
-      // Snackbar Theme
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.textPrimary,
         contentTextStyle: AppTextStyles.bodyMedium.copyWith(
@@ -236,12 +217,10 @@ class AppTheme {
         behavior: SnackBarBehavior.floating,
       ),
 
-      // Progress Indicator Theme
       progressIndicatorTheme: const ProgressIndicatorThemeData(
         color: AppColors.primary,
       ),
 
-      // Switch Theme
       switchTheme: SwitchThemeData(
         thumbColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.selected)) {
@@ -257,7 +236,6 @@ class AppTheme {
         }),
       ),
 
-      // Checkbox Theme
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith<Color>((
           Set<MaterialState> states,
@@ -272,7 +250,6 @@ class AppTheme {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
       ),
 
-      // Slider Theme
       sliderTheme: SliderThemeData(
         activeTrackColor: AppColors.primary,
         inactiveTrackColor: AppColors.border,
@@ -286,10 +263,7 @@ class AppTheme {
     );
   }
 
-  /// Dark theme configuration (future implementation)
   static ThemeData get darkTheme {
-    // For now, return the light theme
-    // Dark theme will be implemented in future phases
     return lightTheme;
   }
 }

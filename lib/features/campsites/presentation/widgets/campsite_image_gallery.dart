@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../../shared/widgets/cached_image_widget.dart';
 import '../../../../shared/theme/colors.dart';
@@ -53,7 +54,6 @@ class _CampsiteImageGalleryState extends State<CampsiteImageGallery> {
       height: widget.height,
       child: Stack(
         children: [
-          // Image PageView
           PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {
@@ -67,7 +67,6 @@ class _CampsiteImageGalleryState extends State<CampsiteImageGallery> {
             },
           ),
 
-          // Navigation arrows (for multiple images)
           if (widget.images.length > 1) ...[
             _buildNavigationArrow(
               alignment: Alignment.centerLeft,
@@ -80,8 +79,6 @@ class _CampsiteImageGalleryState extends State<CampsiteImageGallery> {
               onTap: _nextImage,
             ),
           ],
-
-          // Page indicators
           if (widget.showIndicators && widget.images.length > 1)
             Positioned(
               bottom: Dimensions.paddingM,
@@ -89,16 +86,12 @@ class _CampsiteImageGalleryState extends State<CampsiteImageGallery> {
               right: 0,
               child: _buildPageIndicators(),
             ),
-
-          // Image counter
           if (widget.showCounter && widget.images.length > 1)
             Positioned(
               top: Dimensions.paddingM,
               right: Dimensions.paddingM,
               child: _buildImageCounter(),
             ),
-
-          // Zoom button
           if (widget.allowZoom)
             Positioned(
               top: Dimensions.paddingM,
@@ -272,7 +265,6 @@ class _CampsiteImageGalleryState extends State<CampsiteImageGallery> {
   }
 }
 
-/// Full-screen image gallery for detailed viewing
 class FullScreenImageGallery extends StatefulWidget {
   const FullScreenImageGallery({
     super.key,
@@ -312,7 +304,7 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => context.pop(),
           icon: const Icon(Icons.close, color: Colors.white),
         ),
         title: Text(
@@ -358,7 +350,6 @@ class _FullScreenImageGalleryState extends State<FullScreenImageGallery> {
   }
 }
 
-/// Single image display widget for campsite detail views
 class CampsiteImageDisplay extends StatelessWidget {
   const CampsiteImageDisplay({
     super.key,

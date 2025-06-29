@@ -3,7 +3,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../theme/colors.dart';
 import '../constants/dimensions.dart';
 
-/// Cached network image widget with loading and error states
 class CachedImageWidget extends StatelessWidget {
   final String? imageUrl;
   final double? width;
@@ -123,7 +122,6 @@ class CampsiteImageWidget extends StatelessWidget {
   }
 }
 
-/// Avatar image widget for user profiles
 class AvatarImageWidget extends StatelessWidget {
   final String? imageUrl;
   final double size;
@@ -176,7 +174,6 @@ class AvatarImageWidget extends StatelessWidget {
   }
 }
 
-/// Thumbnail image widget for grid layouts
 class ThumbnailImageWidget extends StatelessWidget {
   final String? imageUrl;
   final double size;
@@ -211,7 +208,6 @@ class ThumbnailImageWidget extends StatelessWidget {
   }
 }
 
-/// Gallery image widget with zoom capability
 class GalleryImageWidget extends StatelessWidget {
   final String imageUrl;
   final String heroTag;
@@ -240,7 +236,6 @@ class GalleryImageWidget extends StatelessWidget {
   }
 }
 
-/// Progressive image widget with fade-in animation
 class ProgressiveImageWidget extends StatelessWidget {
   final String? thumbnailUrl;
   final String? fullImageUrl;
@@ -270,7 +265,6 @@ class ProgressiveImageWidget extends StatelessWidget {
 
     return Stack(
       children: [
-        // Thumbnail as background
         if (thumbnailUrl != null && thumbnailUrl!.isNotEmpty)
           CachedImageWidget(
             imageUrl: thumbnailUrl,
@@ -278,7 +272,6 @@ class ProgressiveImageWidget extends StatelessWidget {
             height: height,
             fit: fit,
           ),
-        // Full image on top
         CachedImageWidget(
           imageUrl: fullImageUrl,
           width: width,

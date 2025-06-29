@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
-import '../theme/text_styles.dart';
 import '../constants/dimensions.dart';
 import '../constants/strings.dart';
 
-/// Loading widget with customizable size and appearance
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({
     super.key,
@@ -46,7 +44,6 @@ class LoadingWidget extends StatelessWidget {
   }
 }
 
-/// Small loading widget for cards and compact spaces
 class LoadingWidgetSmall extends StatelessWidget {
   const LoadingWidgetSmall({super.key, this.color});
 
@@ -65,7 +62,6 @@ class LoadingWidgetSmall extends StatelessWidget {
   }
 }
 
-/// Large loading widget for full screen loading states
 class LoadingWidgetLarge extends StatelessWidget {
   const LoadingWidgetLarge({
     super.key,
@@ -105,7 +101,6 @@ class LoadingWidgetLarge extends StatelessWidget {
   }
 }
 
-/// Loading widget with custom indicator for specific states
 class LoadingWidgetWithIcon extends StatelessWidget {
   const LoadingWidgetWithIcon({
     super.key,
@@ -149,7 +144,6 @@ class LoadingWidgetWithIcon extends StatelessWidget {
   }
 }
 
-/// App-wide loading widget following design specification
 class AppLoadingWidget extends StatelessWidget {
   const AppLoadingWidget({super.key, this.message, this.showLogo = false});
 
@@ -163,7 +157,6 @@ class AppLoadingWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (showLogo) ...[
-            // App logo or icon would go here
             const Icon(Icons.landscape, size: 48, color: AppColors.primary),
             const SizedBox(height: Dimensions.spaceL),
           ],
@@ -185,7 +178,6 @@ class AppLoadingWidget extends StatelessWidget {
   }
 }
 
-/// Loading overlay that can be shown over content
 class LoadingOverlay extends StatelessWidget {
   final Widget child;
   final bool isLoading;
@@ -213,7 +205,6 @@ class LoadingOverlay extends StatelessWidget {
   }
 }
 
-/// Loading list item for skeleton loading
 class LoadingListItem extends StatelessWidget {
   const LoadingListItem({super.key});
 
@@ -228,7 +219,6 @@ class LoadingListItem extends StatelessWidget {
         padding: const EdgeInsets.all(Dimensions.paddingM),
         child: Row(
           children: [
-            // Image placeholder
             Container(
               width: Dimensions.thumbnailSize,
               height: Dimensions.thumbnailSize,
@@ -238,7 +228,6 @@ class LoadingListItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: Dimensions.spaceM),
-            // Content placeholder
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -279,7 +268,6 @@ class LoadingListItem extends StatelessWidget {
   }
 }
 
-/// Shimmer effect for loading placeholders
 class ShimmerWidget extends StatefulWidget {
   final Widget child;
 
@@ -342,7 +330,6 @@ class _ShimmerWidgetState extends State<ShimmerWidget>
   }
 }
 
-/// Loading grid for campsite cards
 class LoadingGrid extends StatelessWidget {
   final int itemCount;
 

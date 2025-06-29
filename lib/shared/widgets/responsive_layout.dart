@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// Responsive layout helper that provides different layouts based on screen size
 class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout({
     super.key,
@@ -50,7 +49,6 @@ class ResponsiveLayout extends StatelessWidget {
   }
 }
 
-/// Wrapper widget that constrains content width and centers it
 class ResponsiveConstraints extends StatelessWidget {
   const ResponsiveConstraints({
     super.key,
@@ -72,7 +70,6 @@ class ResponsiveConstraints extends StatelessWidget {
   }
 }
 
-/// Grid view that adapts the number of columns based on screen size
 class ResponsiveGrid extends StatelessWidget {
   const ResponsiveGrid({
     super.key,

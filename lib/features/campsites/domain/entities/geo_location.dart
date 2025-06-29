@@ -3,7 +3,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'geo_location.freezed.dart';
 
-/// Domain entity representing geographical coordinates
 @freezed
 class GeoLocation with _$GeoLocation {
   const factory GeoLocation({
@@ -13,7 +12,6 @@ class GeoLocation with _$GeoLocation {
 
   const GeoLocation._();
 
-  /// Check if coordinates are valid
   bool get isValid {
     return latitude >= -90.0 &&
         latitude <= 90.0 &&
@@ -21,15 +19,12 @@ class GeoLocation with _$GeoLocation {
         longitude <= 180.0;
   }
 
-  /// Get human-readable coordinates string
   String get displayCoordinates {
     return '${latitude.toStringAsFixed(6)}, ${longitude.toStringAsFixed(6)}';
   }
 
-  /// Calculate distance to another location in kilometers
   double distanceTo(GeoLocation other) {
-    // Haversine formula for calculating distance between two points on Earth
-    const double earthRadius = 6371; // Earth's radius in kilometers
+    const double earthRadius = 6371;
 
     final double dLat = _degreesToRadians(other.latitude - latitude);
     final double dLon = _degreesToRadians(other.longitude - longitude);

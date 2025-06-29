@@ -3,7 +3,6 @@ import 'geo_location.dart';
 
 part 'campsite.freezed.dart';
 
-/// Domain entity representing a campsite
 @freezed
 class Campsite with _$Campsite {
   const factory Campsite({
@@ -21,12 +20,10 @@ class Campsite with _$Campsite {
 
   const Campsite._();
 
-  /// Get formatted price string
   String get formattedPrice {
     return '€${pricePerNight.toStringAsFixed(0)} / night';
   }
 
-  /// Get campsite amenities as a list
   List<String> get amenities {
     final List<String> amenities = [];
     if (isCloseToWater) amenities.add('Close to Water');
@@ -34,14 +31,12 @@ class Campsite with _$Campsite {
     return amenities;
   }
 
-  /// Check if campsite matches search term
   bool matchesSearchTerm(String searchTerm) {
     final String lowerSearch = searchTerm.toLowerCase();
     return label.toLowerCase().contains(lowerSearch) ||
         hostLanguages.any((lang) => lang.toLowerCase().contains(lowerSearch));
   }
 
-  /// Get a brief description of the campsite
   String get briefDescription {
     final List<String> features = [];
     if (isCloseToWater) features.add('waterfront');
@@ -54,7 +49,6 @@ class Campsite with _$Campsite {
     }
   }
 
-  /// Get primary host language
   String get primaryHostLanguage {
     return hostLanguages.isNotEmpty ? hostLanguages.first : 'en';
   }

@@ -112,63 +112,17 @@ class GetCampsiteDetails {
     final priceDifference =
         (target.pricePerNight - candidate.pricePerNight).abs();
     final priceRatio = priceDifference / target.pricePerNight;
-    if (priceRatio <= 0.2)
-      score += 2.0 - (priceRatio * 5); // Score decreases with price difference
+    if (priceRatio <= 0.2) {
+      score += 2.0 - (priceRatio * 5);
+    }
 
     // Geographic proximity could be added here using coordinates
     // For now, we'll skip this as it would require more complex calculations
 
     return score;
   }
-
-  /// Validate campsite data quality
-  bool _validateCampsiteData(Campsite campsite) {
-    // Basic validation checks
-    if (campsite.label.isEmpty || campsite.id.isEmpty) return false;
-
-    // Validate host languages
-    if (campsite.hostLanguages.isEmpty) return false;
-
-    // Validate features consistency
-    if (campsite.isCloseToWater && campsite.isCampFireAllowed) {
-      // Both features can coexist, this is valid
-    }
-
-    if (campsite.pricePerNight <= 0) return false;
-
-    return true;
-  }
-
-  /// Generate additional metadata for campsite
-  Map<String, dynamic> _generateMetadata(Campsite campsite) {
-    return {
-      'hasWaterAccess': campsite.isCloseToWater,
-      'allowsCampfire': campsite.isCampFireAllowed,
-      'primaryLanguage': campsite.primaryHostLanguage,
-      'languageCount': campsite.hostLanguages.length,
-      'priceCategory': _getPriceCategory(campsite.pricePerNight),
-      'featuresCount': _countFeatures(campsite),
-      'suitableForCount': campsite.suitableFor.length,
-    };
-  }
-
-  /// Categorize price range
-  String _getPriceCategory(double price) {
-    if (price < 50) return 'Budget';
-    if (price < 100) return 'Mid-range';
-    return 'Premium';
-  }
-
-  /// Count features available at campsite
-  int _countFeatures(Campsite campsite) {
-    int count = 0;
-    if (campsite.isCloseToWater) count++;
-    if (campsite.isCampFireAllowed) count++;
-    return count;
-  }
 }
 
-/// Helper class to associate campsites with similarity scores
 class ScoredCampsite {
   final Campsite campsite;
   final double score;

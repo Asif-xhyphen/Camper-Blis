@@ -13,7 +13,6 @@ import 'campsite_controller.dart';
 
 part 'flutter_map_controller.freezed.dart';
 
-/// Cluster data class
 @freezed
 class ClusterData with _$ClusterData {
   const factory ClusterData({
@@ -49,7 +48,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
 
   final Ref ref;
 
-  /// Initialize map with default settings
   void _initializeMap() {
     state = state.copyWith(
       initialCenter: const LatLng(51.1657, 10.4515), // Center of Germany
@@ -57,7 +55,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     );
   }
 
-  /// Set map controller when map is ready
   void setMapController(
     MapController controller,
     PopupController popupController,
@@ -68,7 +65,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     );
   }
 
-  /// Update markers based on campsites with clustering
   void updateMarkers(List<Campsite> campsites) {
     if (state.showClustering) {
       _updateMarkersWithClustering(campsites);
@@ -77,7 +73,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Update markers without clustering
   void _updateMarkersWithoutClustering(List<Campsite> campsites) {
     final List<Marker> markers = [];
 
@@ -99,7 +94,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     state = state.copyWith(markers: markers, clusters: []);
   }
 
-  /// Update markers with simple clustering
   void _updateMarkersWithClustering(List<Campsite> campsites) {
     final mapController = state.mapController;
     if (mapController == null) {
@@ -113,7 +107,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
 
     for (final cluster in clusters) {
       if (cluster.count == 1) {
-        // Single campsite marker
         final campsite = cluster.campsites.first;
         markers.add(
           Marker(
@@ -123,7 +116,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
           ),
         );
       } else {
-        // Cluster marker
         markers.add(
           Marker(
             point: cluster.center,
@@ -139,17 +131,15 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     state = state.copyWith(markers: markers, clusters: clusters);
   }
 
-  /// Simple clustering algorithm
   List<ClusterData> _calculateClusters(List<Campsite> campsites, double zoom) {
-    // Much smaller cluster radius to prevent everything clustering together
     final double clusterRadius =
         zoom < 6
-            ? 30.0 // At very low zoom, allow larger clusters
+            ? 30.0
             : zoom < 8
-            ? 20.0 // Medium zoom, medium clusters
+            ? 20.0
             : zoom < 10
-            ? 15.0 // Higher zoom, smaller clusters
-            : 10.0; // High zoom, very small clusters
+            ? 15.0
+            : 10.0;
 
     final List<ClusterData> clusters = [];
     final Set<String> processed = {};
@@ -162,7 +152,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
       final List<Campsite> clusterCampsites = [campsite];
       processed.add(campsite.id);
 
-      // Find nearby campsites to cluster
       for (final otherCampsite in campsites) {
         if (!otherCampsite.geoLocation.isValid ||
             processed.contains(otherCampsite.id) ||
@@ -185,7 +174,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
         }
       }
 
-      // Calculate cluster center
       final LatLng center = _calculateClusterCenter(clusterCampsites);
 
       clusters.add(
@@ -208,10 +196,7 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     return clusters;
   }
 
-  /// Calculate approximate pixel distance between two points at given zoom
   double _calculatePixelDistance(LatLng point1, LatLng point2, double zoom) {
-    // Simplified pixel distance calculation
-    // At zoom level 10, roughly 1 degree = 100 pixels
     final double pixelsPerDegree = 100 * math.pow(2, zoom - 10).toDouble();
 
     final double dx =
@@ -221,9 +206,7 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
 
     final double distance = math.sqrt(dx * dx + dy * dy);
 
-    // Debug first few calculations
     if (math.Random().nextDouble() < 0.01) {
-      // Print 1% of calculations
       print(
         '    Distance calc: (${point1.latitude.toStringAsFixed(4)}, ${point1.longitude.toStringAsFixed(4)}) to (${point2.latitude.toStringAsFixed(4)}, ${point2.longitude.toStringAsFixed(4)}) = ${distance.toStringAsFixed(1)}px',
       );
@@ -232,7 +215,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     return distance;
   }
 
-  /// Calculate center point of campsites
   LatLng _calculateClusterCenter(List<Campsite> campsites) {
     if (campsites.length == 1) {
       return LatLng(
@@ -251,13 +233,11 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     return LatLng(totalLat / campsites.length, totalLng / campsites.length);
   }
 
-  /// Build individual campsite marker
   Widget _buildCampsiteMarker(Campsite campsite) {
     final bool isSelected = state.selectedCampsiteId == campsite.id;
 
     return GestureDetector(
       onTap: () {
-        // Select campsite and show popup
         selectCampsite(
           campsite.id,
           LatLng(campsite.geoLocation.latitude, campsite.geoLocation.longitude),
@@ -293,7 +273,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     );
   }
 
-  /// Build cluster marker
   Widget _buildClusterMarker(int count) {
     return Container(
       width: 50,
@@ -323,7 +302,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     );
   }
 
-  /// Handle cluster tap - zoom in to show individual markers
   void _onClusterTap(ClusterData cluster) {
     final mapController = state.mapController;
     if (mapController != null) {
@@ -332,7 +310,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
 
       mapController.move(cluster.center, newZoom);
 
-      // Force recalculation of clustering after zoom
       Future.delayed(const Duration(milliseconds: 200), () {
         final campsiteState = ref.read(campsiteControllerProvider);
         updateMarkers(campsiteState.filteredCampsites);
@@ -340,26 +317,21 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Select a campsite on the map
   void selectCampsite(String campsiteId, LatLng location) {
     final marker = state.markers.firstWhere(
       (marker) => marker.point == location,
     );
 
-    // Center camera on the selected marker with intelligent zoom
     final mapController = state.mapController;
     if (mapController != null) {
       final currentZoom = mapController.camera.zoom;
-      // Use current zoom if it's detailed enough, otherwise zoom to 14
       final targetZoom = currentZoom < 12.0 ? 14.0 : currentZoom;
-      // add slight deviation in location to fit the popup above it
       moveToLocation(
         LatLng(location.latitude + 0.009, location.longitude),
         zoom: targetZoom,
       );
     }
 
-    // Show popup after a slight delay to allow camera movement
     Future.delayed(const Duration(milliseconds: 300), () {
       state.popupController?.showPopupsAlsoFor([marker]);
     });
@@ -368,31 +340,25 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
       selectedCampsiteId: campsiteId,
       isPopupVisible: true,
     );
-    // Trigger marker update to show selection
     final campsiteState = ref.read(campsiteControllerProvider);
     updateMarkers(campsiteState.filteredCampsites);
   }
 
-  /// Clear campsite selection
   void clearSelection() {
     state.popupController?.hideAllPopups();
     state = state.copyWith(selectedCampsiteId: null, isPopupVisible: false);
-    // Trigger marker update to clear selection
     final campsiteState = ref.read(campsiteControllerProvider);
     updateMarkers(campsiteState.filteredCampsites);
   }
 
-  /// Show popup for a specific marker
   void showPopup(LatLng location) {
     state = state.copyWith(isPopupVisible: true);
   }
 
-  /// Hide popup
   void hidePopup() {
     state = state.copyWith(isPopupVisible: false);
   }
 
-  /// Move camera to specific location
   void moveToLocation(LatLng location, {double zoom = 14.0}) {
     final controller = state.mapController;
     if (controller != null) {
@@ -400,7 +366,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Move camera to campsite location
   void moveToCampsite(Campsite campsite) {
     final location = LatLng(
       campsite.geoLocation.latitude,
@@ -413,12 +378,10 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     );
   }
 
-  /// Update current location
   void updateCurrentLocation(LatLng location) {
     state = state.copyWith(currentLocation: location);
   }
 
-  /// Move to current location
   void moveToCurrentLocation() {
     final currentLocation = state.currentLocation;
     if (currentLocation != null) {
@@ -426,7 +389,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Fit camera to show all markers
   void fitToMarkers() {
     final controller = state.mapController;
     if (controller != null && state.markers.isNotEmpty) {
@@ -437,7 +399,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Calculate bounds for all markers
   LatLngBounds? _calculateBounds() {
     if (state.markers.isEmpty) return null;
 
@@ -459,14 +420,12 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     return LatLngBounds(LatLng(minLat, minLng), LatLng(maxLat, maxLng));
   }
 
-  /// Toggle clustering on/off
   void toggleClustering() {
     state = state.copyWith(showClustering: !state.showClustering);
     final campsiteState = ref.read(campsiteControllerProvider);
     updateMarkers(campsiteState.filteredCampsites);
   }
 
-  /// Zoom in
   void zoomIn() {
     final controller = state.mapController;
     if (controller != null) {
@@ -475,7 +434,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Zoom out
   void zoomOut() {
     final controller = state.mapController;
     if (controller != null) {
@@ -484,36 +442,29 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     }
   }
 
-  /// Handle map error
   void setError(String error) {
     state = state.copyWith(errorMessage: error);
   }
 
-  /// Clear map error
   void clearError() {
     state = state.copyWith(errorMessage: null);
   }
 
-  /// Set loading state
   void setLoading(bool isLoading) {
     state = state.copyWith(isLoading: isLoading);
   }
 
-  /// Listen to zoom changes and update clustering
   void onZoomChanged() {
     final campsiteState = ref.read(campsiteControllerProvider);
     updateMarkers(campsiteState.filteredCampsites);
   }
 
-  /// Force immediate clustering update (useful after zoom operations)
   void forceClusteringUpdate() {
     final campsiteState = ref.read(campsiteControllerProvider);
     updateMarkers(campsiteState.filteredCampsites);
   }
 
-  /// Build popup content for a marker
   Widget buildPopupForMarker(BuildContext context, Marker marker) {
-    // Find the campsite for this marker
     final campsiteState = ref.read(campsiteControllerProvider);
     final campsite = campsiteState.filteredCampsites.firstWhere(
       (c) =>
@@ -522,7 +473,6 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
       orElse: () => throw Exception('Campsite not found for marker'),
     );
 
-    // Ensure popup state is updated when popup is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!state.isPopupVisible) {
         state = state.copyWith(isPopupVisible: true);
@@ -532,21 +482,17 @@ class FlutterMapController extends StateNotifier<FlutterMapState> {
     return CampsitePopup(
       campsite: campsite,
       onTap: () {
-        // Navigate to campsite detail or close popup
-        clearSelection(); // This will hide the popup and show the list again
-        // navigate to campsite detail page
-        context.go('/campsite/${campsite.id}');
+        clearSelection();
+        context.go('/map/campsite/${campsite.id}');
       },
     );
   }
 }
 
-/// Provider for map controller
 final flutterMapControllerProvider =
     StateNotifierProvider<FlutterMapController, FlutterMapState>((ref) {
       final controller = FlutterMapController(ref);
 
-      // Listen to campsite changes and update markers
       ref.listen(filteredCampsitesProvider, (previous, next) {
         controller.updateMarkers(next);
       });
@@ -554,13 +500,11 @@ final flutterMapControllerProvider =
       return controller;
     });
 
-/// Provider for map markers
 final mapMarkersProvider = Provider<List<Marker>>((ref) {
   final state = ref.watch(flutterMapControllerProvider);
   return state.markers;
 });
 
-/// Provider for selected campsite
 final selectedCampsiteProvider = Provider<Campsite?>((ref) {
   final mapState = ref.watch(flutterMapControllerProvider);
   final selectedId = mapState.selectedCampsiteId;
@@ -577,19 +521,16 @@ final selectedCampsiteProvider = Provider<Campsite?>((ref) {
   }
 });
 
-/// Provider for current location
 final currentLocationProvider = Provider<LatLng?>((ref) {
   final state = ref.watch(flutterMapControllerProvider);
   return state.currentLocation;
 });
 
-/// Provider for map controller instance
 final mapControllerInstanceProvider = Provider<MapController?>((ref) {
   final state = ref.watch(flutterMapControllerProvider);
   return state.mapController;
 });
 
-/// Provider for popup visibility state
 final isPopupVisibleProvider = Provider<bool>((ref) {
   final state = ref.watch(flutterMapControllerProvider);
   return state.isPopupVisible;

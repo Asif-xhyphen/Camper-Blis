@@ -7,6 +7,7 @@ import '../../../../shared/constants/dimensions.dart';
 import '../../../../shared/theme/text_styles.dart';
 import '../../../../shared/widgets/loading_widget.dart';
 import '../../../../shared/widgets/responsive_layout.dart';
+import 'package:flutter/foundation.dart';
 
 class HorizontalCampsiteCard extends StatelessWidget {
   final Campsite campsite;
@@ -51,8 +52,7 @@ class HorizontalCampsiteCard extends StatelessWidget {
       ),
       child: Card(
         margin: EdgeInsets.zero,
-        elevation:
-            0, // Remove default elevation since we're using custom shadow
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(Dimensions.radiusM),
         ),
@@ -64,10 +64,8 @@ class HorizontalCampsiteCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Image section
               _buildImageSection(),
 
-              // Content section
               Expanded(flex: isGridView ? 1 : 0, child: _buildContentSection()),
             ],
           ),
@@ -115,13 +113,10 @@ class HorizontalCampsiteCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Rating badge
-          // _buildRatingBadge(),
           SizedBox(
             height: isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
           ),
 
-          // Title
           Text(
             campsite.label,
             style:
@@ -136,7 +131,6 @@ class HorizontalCampsiteCard extends StatelessWidget {
             height: isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
           ),
 
-          // Location info
           Text(
             campsite.hostLanguages.join(', '),
             style: AppTextStyles.bodySmall.copyWith(
@@ -149,12 +143,8 @@ class HorizontalCampsiteCard extends StatelessWidget {
 
           SizedBox(height: isGridView ? Dimensions.spaceXS : Dimensions.spaceS),
 
-          // // Amenities row (show fewer in grid view)
-          // if (!isGridView) _buildAmenitiesRow(),
-          // if (isGridView) _buildCompactAmenitiesRow(),
           SizedBox(height: isGridView ? Dimensions.spaceXS : Dimensions.spaceS),
 
-          // Price
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -175,8 +165,7 @@ class HorizontalCampsiteCard extends StatelessWidget {
   }
 }
 
-/// Accommodation card following the design specification
-class CampsiteCard extends StatelessWidget {
+class CampsiteCard extends StatefulWidget {
   final Campsite campsite;
   final VoidCallback? onTap;
   final bool isGridView;
@@ -189,48 +178,86 @@ class CampsiteCard extends StatelessWidget {
   });
 
   @override
+  State<CampsiteCard> createState() => _CampsiteCardState();
+}
+
+class _CampsiteCardState extends State<CampsiteCard> {
+  bool _hovering = false;
+
+  @override
   Widget build(BuildContext context) {
     final cardMargin =
-        isGridView
+        widget.isGridView
             ? EdgeInsets.zero
             : const EdgeInsets.symmetric(
               horizontal: Dimensions.marginM,
               vertical: Dimensions.marginS,
             );
-
-    return Card(
-      margin: cardMargin,
-      elevation: Dimensions.cardElevation,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(Dimensions.radiusM),
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(Dimensions.radiusM),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Image section
-            _buildImageSection(),
-
-            // Content section
-            Expanded(flex: isGridView ? 1 : 0, child: _buildContentSection()),
+    final isWeb =
+        kIsWeb ||
+        ResponsiveLayout.isDesktop(context) ||
+        ResponsiveLayout.isTablet(context);
+    return MouseRegion(
+      onEnter: (_) {
+        if (isWeb) setState(() => _hovering = true);
+      },
+      onExit: (_) {
+        if (isWeb) setState(() => _hovering = false);
+      },
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        curve: Curves.easeInOut,
+        transform:
+            _hovering ? Matrix4.identity().scaled(1.025) : Matrix4.identity(),
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color:
+                  _hovering
+                      ? AppColors.primaryGreen.withOpacity(0.18)
+                      : Colors.black.withOpacity(0.08),
+              blurRadius: _hovering ? 16 : 8,
+              offset: const Offset(0, 4),
+            ),
           ],
+          borderRadius: BorderRadius.circular(Dimensions.radiusM),
+        ),
+        margin: cardMargin,
+        child: Card(
+          margin: EdgeInsets.zero,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimensions.radiusM),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: widget.onTap,
+            borderRadius: BorderRadius.circular(Dimensions.radiusM),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildImageSection(),
+                Expanded(
+                  flex: widget.isGridView ? 1 : 0,
+                  child: _buildContentSection(),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildImageSection() {
-    final imageHeight = isGridView ? 160.0 : Dimensions.cardImageHeight;
+    final imageHeight = widget.isGridView ? 160.0 : Dimensions.cardImageHeight;
 
     return SizedBox(
       height: imageHeight,
       width: double.infinity,
       child: CachedNetworkImage(
-        imageUrl: campsite.photo,
+        imageUrl: widget.campsite.photo,
         fit: BoxFit.cover,
         placeholder:
             (context, url) => Container(
@@ -252,7 +279,7 @@ class CampsiteCard extends StatelessWidget {
 
   Widget _buildContentSection() {
     final padding =
-        isGridView
+        widget.isGridView
             ? const EdgeInsets.all(Dimensions.paddingS)
             : const EdgeInsets.all(Dimensions.paddingM);
 
@@ -262,48 +289,49 @@ class CampsiteCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Rating badge
           _buildRatingBadge(),
 
           SizedBox(
-            height: isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
+            height:
+                widget.isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
           ),
 
-          // Title
           Text(
-            campsite.label,
+            widget.campsite.label,
             style:
-                isGridView
+                widget.isGridView
                     ? AppTextStyles.headingSmall.copyWith(fontSize: 14)
                     : AppTextStyles.headingSmall,
-            maxLines: isGridView ? 2 : 2,
+            maxLines: widget.isGridView ? 2 : 2,
             overflow: TextOverflow.ellipsis,
           ),
 
           SizedBox(
-            height: isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
+            height:
+                widget.isGridView ? Dimensions.spaceXS / 2 : Dimensions.spaceXS,
           ),
 
-          // Location info
           Text(
-            campsite.hostLanguages.join(', '),
+            widget.campsite.hostLanguages.join(', '),
             style: AppTextStyles.bodySmall.copyWith(
               color: AppColors.textSecondary,
-              fontSize: isGridView ? 11 : null,
+              fontSize: widget.isGridView ? 11 : null,
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
 
-          SizedBox(height: isGridView ? Dimensions.spaceXS : Dimensions.spaceS),
+          SizedBox(
+            height: widget.isGridView ? Dimensions.spaceXS : Dimensions.spaceS,
+          ),
 
-          // Amenities row (show fewer in grid view)
-          if (!isGridView) _buildAmenitiesRow(),
-          if (isGridView) _buildCompactAmenitiesRow(),
+          if (!widget.isGridView) _buildAmenitiesRow(),
+          if (widget.isGridView) _buildCompactAmenitiesRow(),
 
-          SizedBox(height: isGridView ? Dimensions.spaceXS : Dimensions.spaceS),
+          SizedBox(
+            height: widget.isGridView ? Dimensions.spaceXS : Dimensions.spaceS,
+          ),
 
-          // Price
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -311,8 +339,8 @@ class CampsiteCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              campsite.formattedPrice,
-              style: (isGridView
+              widget.campsite.formattedPrice,
+              style: (widget.isGridView
                       ? AppTextStyles.price.copyWith(fontSize: 14)
                       : AppTextStyles.price)
                   .copyWith(color: AppColors.primaryGreen),
@@ -324,7 +352,6 @@ class CampsiteCard extends StatelessWidget {
   }
 
   Widget _buildRatingBadge() {
-    // Mock rating for now - in real app this would come from reviews
     const rating = 4.8;
     const reviewCount = 123;
 
@@ -350,21 +377,20 @@ class CampsiteCard extends StatelessWidget {
   Widget _buildAmenitiesRow() {
     final amenities = <Widget>[];
 
-    if (campsite.isCloseToWater) {
+    if (widget.campsite.isCloseToWater) {
       amenities.add(_buildAmenityChip(icon: Icons.water, label: 'Waterfront'));
     }
 
-    if (campsite.isCampFireAllowed) {
+    if (widget.campsite.isCampFireAllowed) {
       amenities.add(
         _buildAmenityChip(icon: Icons.local_fire_department, label: 'Campfire'),
       );
     }
 
-    // Add language chip
     amenities.add(
       _buildAmenityChip(
         icon: Icons.language,
-        label: campsite.hostLanguages.join(', '),
+        label: widget.campsite.hostLanguages.join(', '),
       ),
     );
 
@@ -378,18 +404,16 @@ class CampsiteCard extends StatelessWidget {
   Widget _buildCompactAmenitiesRow() {
     final amenities = <Widget>[];
 
-    // Show only most important amenities in grid view
-    if (campsite.isCloseToWater) {
+    if (widget.campsite.isCloseToWater) {
       amenities.add(_buildCompactAmenityChip(icon: Icons.water));
     }
 
-    if (campsite.isCampFireAllowed) {
+    if (widget.campsite.isCampFireAllowed) {
       amenities.add(
         _buildCompactAmenityChip(icon: Icons.local_fire_department),
       );
     }
 
-    // Limit to 2-3 amenities in grid view
     return Row(children: amenities.take(3).toList());
   }
 
@@ -435,7 +459,6 @@ class CampsiteCard extends StatelessWidget {
   }
 }
 
-/// Compact campsite card for maps and horizontal scrolling
 class CompactCampsiteCard extends StatelessWidget {
   final Campsite campsite;
   final VoidCallback? onTap;
@@ -459,7 +482,6 @@ class CompactCampsiteCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image
               SizedBox(
                 height: Dimensions.campsiteCardImageHeight,
                 width: double.infinity,
@@ -483,7 +505,6 @@ class CompactCampsiteCard extends StatelessWidget {
                 ),
               ),
 
-              // Content
               Padding(
                 padding: const EdgeInsets.all(Dimensions.paddingS),
                 child: Column(
@@ -520,7 +541,6 @@ class CompactCampsiteCard extends StatelessWidget {
   }
 }
 
-/// Cached image widget with consistent error handling
 class CachedImageWidget extends StatelessWidget {
   final String imageUrl;
   final double? width;

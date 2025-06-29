@@ -11,22 +11,18 @@ class FilterController extends _$FilterController {
     return const FilterCriteria();
   }
 
-  /// Update water proximity filter
   void updateWaterProximity(bool? isCloseToWater) {
     state = state.copyWith(isCloseToWater: isCloseToWater);
   }
 
-  /// Update campfire allowed filter
   void updateCampfireAllowed(bool? isCampFireAllowed) {
     state = state.copyWith(isCampFireAllowed: isCampFireAllowed);
   }
 
-  /// Update host languages filter
   void updateHostLanguages(List<String> languages) {
     state = state.copyWith(hostLanguages: languages);
   }
 
-  /// Toggle a language in the selection
   void toggleLanguage(String language) {
     final List<String> currentLanguages = List.from(state.hostLanguages);
     if (currentLanguages.contains(language)) {
@@ -37,17 +33,14 @@ class FilterController extends _$FilterController {
     state = state.copyWith(hostLanguages: currentLanguages);
   }
 
-  /// Update price range filter
   void updatePriceRange({double? minPrice, double? maxPrice}) {
     state = state.copyWith(minPrice: minPrice, maxPrice: maxPrice);
   }
 
-  /// Clear all filters
   void clearAllFilters() {
     state = const FilterCriteria();
   }
 
-  /// Reset a specific filter
   void resetFilter(String filterType) {
     switch (filterType) {
       case 'water':
@@ -66,21 +59,18 @@ class FilterController extends _$FilterController {
   }
 }
 
-/// Provider for checking if filters are active
 @riverpod
 bool hasActiveFilters(Ref ref) {
   final filter = ref.watch(filterControllerProvider);
   return filter.hasActiveFilters;
 }
 
-/// Provider for active filter count
 @riverpod
 int activeFilterCount(Ref ref) {
   final filter = ref.watch(filterControllerProvider);
   return filter.activeFilterCount;
 }
 
-/// Provider for available countries
 @riverpod
 List<String> availableCountries(Ref ref) {
   return [
@@ -99,7 +89,6 @@ List<String> availableCountries(Ref ref) {
   ];
 }
 
-/// Provider for available languages
 @riverpod
 List<String> availableLanguages(Ref ref) {
   return [
@@ -116,7 +105,6 @@ List<String> availableLanguages(Ref ref) {
   ];
 }
 
-/// Provider for language display names
 @riverpod
 Map<String, String> languageDisplayNames(Ref ref) {
   return {
@@ -133,9 +121,7 @@ Map<String, String> languageDisplayNames(Ref ref) {
   };
 }
 
-/// Provider for price range bounds
 @riverpod
 ({double min, double max}) priceRangeBounds(Ref ref) {
-  // Based on the actual data range from JSON response
   return (min: 0.0, max: 100000.0);
 }

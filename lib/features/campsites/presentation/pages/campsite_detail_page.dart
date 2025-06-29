@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../controllers/campsite_detail_controller.dart';
 import '../../../../shared/widgets/loading_widget.dart';
 import '../../../../shared/widgets/error_widget.dart';
 import '../../../../shared/theme/colors.dart';
-import '../../../../shared/theme/text_styles.dart';
-import '../../../../shared/constants/dimensions.dart';
-import '../../../../shared/constants/strings.dart';
 import '../../domain/entities/campsite.dart';
 
 class CampsiteDetailPage extends ConsumerStatefulWidget {
@@ -23,7 +21,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
 
-  // Mock unavailable dates for demonstration
   final Set<DateTime> _unavailableDates = {
     DateTime(2024, 7, 10),
     DateTime(2024, 7, 11),
@@ -37,7 +34,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
   @override
   void initState() {
     super.initState();
-    // Set July 5th as selected by default to match the design
     _selectedDay = DateTime(2024, 7, 5);
     _focusedDay = DateTime(2024, 7, 1);
   }
@@ -63,7 +59,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
       campsiteDetailErrorProvider(widget.campsiteId),
     );
 
-    // Show loading state
     if (isLoading && campsite == null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Loading...')),
@@ -71,7 +66,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
       );
     }
 
-    // Show error state
     if (errorMessage != null) {
       return Scaffold(
         appBar: AppBar(title: const Text('Error')),
@@ -92,7 +86,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
       );
     }
 
-    // Show campsite details
     if (campsite != null) {
       return _buildCampsiteDetail(campsite);
     }
@@ -108,7 +101,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
-          // Collapsing SliverAppBar with image
           SliverAppBar(
             expandedHeight: 300.0,
             floating: false,
@@ -134,7 +126,7 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
                   Icons.arrow_back,
                   color: AppColors.textPrimary,
                 ),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
               ),
             ),
             actions: [
@@ -154,7 +146,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
                 child: IconButton(
                   icon: const Icon(Icons.share, color: AppColors.textPrimary),
                   onPressed: () {
-                    // TODO: Implement share functionality
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Share feature coming soon!'),
@@ -169,7 +160,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  // Campsite image
                   Image.network(
                     campsite.photo,
                     fit: BoxFit.cover,
@@ -186,7 +176,6 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage> {
                       );
                     },
                   ),
-                  // Enhanced gradient overlay for better text visibility
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(

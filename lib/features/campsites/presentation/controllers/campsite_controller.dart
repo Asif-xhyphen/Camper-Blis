@@ -31,7 +31,6 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     loadCampsites();
   }
 
-  /// Load all campsites from repository
   Future<void> loadCampsites() async {
     if (state.isLoading) return;
 
@@ -59,7 +58,6 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     );
   }
 
-  /// Refresh campsites data
   Future<void> refreshCampsites() async {
     if (state.isRefreshing) return;
 
@@ -86,20 +84,14 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     );
   }
 
-  /// Apply filters to campsite list
   Future<void> applyFilters(FilterCriteria filters) async {
-    // For better performance, apply filters locally for immediate UI updates
     final localFilteredList = _applyFilters(state.campsites, filters);
     state = state.copyWith(
       filteredCampsites: localFilteredList,
       appliedFilters: filters,
     );
-
-    // Optionally, we could also use the FilterCampsites use case for more complex filtering
-    // but for now, local filtering is sufficient and more performant
   }
 
-  /// Clear all applied filters
   void clearFilters() {
     state = state.copyWith(
       filteredCampsites: state.campsites,
@@ -107,31 +99,26 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     );
   }
 
-  /// Apply current filters to a list of campsites
   List<Campsite> _applyCurrentFilters(List<Campsite> campsites) {
     if (state.appliedFilters == null) return campsites;
     return _applyFilters(campsites, state.appliedFilters!);
   }
 
-  /// Apply filter criteria to campsite list
   List<Campsite> _applyFilters(
     List<Campsite> campsites,
     FilterCriteria filters,
   ) {
     return campsites.where((campsite) {
-      // Water proximity filter
       if (filters.isCloseToWater != null &&
           campsite.isCloseToWater != filters.isCloseToWater) {
         return false;
       }
 
-      // Campfire allowed filter
       if (filters.isCampFireAllowed != null &&
           campsite.isCampFireAllowed != filters.isCampFireAllowed) {
         return false;
       }
 
-      // Host languages filter
       if (filters.hostLanguages.isNotEmpty &&
           !filters.hostLanguages.any(
             (lang) => campsite.hostLanguages.contains(lang),
@@ -139,7 +126,6 @@ class CampsiteController extends StateNotifier<CampsiteState> {
         return false;
       }
 
-      // Price range filter
       if (filters.minPrice != null &&
           campsite.pricePerNight < filters.minPrice!) {
         return false;
@@ -154,10 +140,8 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     }).toList();
   }
 
-  /// Search campsites by text
   Future<void> searchCampsites(String searchTerm) async {
     if (searchTerm.isEmpty) {
-      // If search is empty, show filtered results based on current filters
       final filteredList =
           state.appliedFilters != null
               ? _applyFilters(state.campsites, state.appliedFilters!)
@@ -167,14 +151,12 @@ class CampsiteController extends StateNotifier<CampsiteState> {
       return;
     }
 
-    // Filter locally for immediate response
     final searchResults =
         state.campsites.where((campsite) {
           final searchLower = searchTerm.toLowerCase();
           return _matchesSearch(campsite, searchLower);
         }).toList();
 
-    // Apply current filters to search results if any
     final filteredResults =
         state.appliedFilters != null
             ? _applyFilters(searchResults, state.appliedFilters!)
@@ -183,7 +165,6 @@ class CampsiteController extends StateNotifier<CampsiteState> {
     state = state.copyWith(filteredCampsites: filteredResults);
   }
 
-  /// Check if campsite matches search term
   bool _matchesSearch(Campsite campsite, String searchTerm) {
     if (searchTerm.isEmpty) return true;
 
@@ -195,14 +176,12 @@ class CampsiteController extends StateNotifier<CampsiteState> {
   }
 }
 
-/// Provider for campsite controller
 final campsiteControllerProvider =
     StateNotifierProvider<CampsiteController, CampsiteState>((ref) {
       final getCampsites = ref.watch(getCampsitesUseCaseProvider);
       final filterCampsites = ref.watch(filterCampsitesUseCaseProvider);
       final controller = CampsiteController(getCampsites, filterCampsites);
 
-      // Listen to filter changes and automatically apply them
       ref.listen<FilterCriteria>(filterControllerProvider, (previous, next) {
         if (previous != next) {
           controller.applyFilters(next);
@@ -212,13 +191,11 @@ final campsiteControllerProvider =
       return controller;
     });
 
-/// Provider for filtered campsites list
 final filteredCampsitesProvider = Provider<List<Campsite>>((ref) {
   final state = ref.watch(campsiteControllerProvider);
   return state.filteredCampsites;
 });
 
-/// Provider for individual campsite by ID
 final campsiteByIdProvider = Provider.family<Campsite?, String>((ref, id) {
   final campsites = ref.watch(filteredCampsitesProvider);
   try {
@@ -228,19 +205,16 @@ final campsiteByIdProvider = Provider.family<Campsite?, String>((ref, id) {
   }
 });
 
-/// Provider for campsite loading state
 final campsiteLoadingProvider = Provider<bool>((ref) {
   final state = ref.watch(campsiteControllerProvider);
   return state.isLoading;
 });
 
-/// Provider for campsite error state
 final campsiteErrorProvider = Provider<String?>((ref) {
   final state = ref.watch(campsiteControllerProvider);
   return state.errorMessage;
 });
 
-/// Provider for campsite search functionality
 final campsiteSearchProvider = Provider<Future<void> Function(String)>((ref) {
   final controller = ref.watch(campsiteControllerProvider.notifier);
   return controller.searchCampsites;

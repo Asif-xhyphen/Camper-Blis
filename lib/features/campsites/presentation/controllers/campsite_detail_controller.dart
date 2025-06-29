@@ -26,7 +26,6 @@ class CampsiteDetailController extends StateNotifier<CampsiteDetailState> {
     loadCampsiteDetails();
   }
 
-  /// Load campsite details by ID
   Future<void> loadCampsiteDetails() async {
     if (state.isLoading) return;
 
@@ -48,38 +47,31 @@ class CampsiteDetailController extends StateNotifier<CampsiteDetailState> {
     );
   }
 
-  /// Refresh campsite details
   Future<void> refreshCampsiteDetails() async {
     await loadCampsiteDetails();
   }
 
-  /// Update current image index for gallery
   void updateImageIndex(int index) {
     state = state.copyWith(currentImageIndex: index);
   }
 
-  /// Open image gallery
   void openImageGallery() {
     state = state.copyWith(isImageGalleryOpen: true);
   }
 
-  /// Close image gallery
   void closeImageGallery() {
     state = state.copyWith(isImageGalleryOpen: false, currentImageIndex: 0);
   }
 
-  /// Set error state
   void setError(String error) {
     state = state.copyWith(errorMessage: error);
   }
 
-  /// Clear error state
   void clearError() {
     state = state.copyWith(errorMessage: null);
   }
 }
 
-/// Provider for campsite detail controller
 final campsiteDetailControllerProvider = StateNotifierProvider.family<
   CampsiteDetailController,
   CampsiteDetailState,
@@ -89,7 +81,6 @@ final campsiteDetailControllerProvider = StateNotifierProvider.family<
   return CampsiteDetailController(getCampsiteDetails, campsiteId);
 });
 
-/// Provider for current campsite details
 final currentCampsiteProvider = Provider.family<Campsite?, String>((
   ref,
   campsiteId,
@@ -98,7 +89,6 @@ final currentCampsiteProvider = Provider.family<Campsite?, String>((
   return state.campsite;
 });
 
-/// Provider for campsite detail loading state
 final campsiteDetailLoadingProvider = Provider.family<bool, String>((
   ref,
   campsiteId,
@@ -107,7 +97,6 @@ final campsiteDetailLoadingProvider = Provider.family<bool, String>((
   return state.isLoading;
 });
 
-/// Provider for campsite detail error state
 final campsiteDetailErrorProvider = Provider.family<String?, String>((
   ref,
   campsiteId,
@@ -116,7 +105,6 @@ final campsiteDetailErrorProvider = Provider.family<String?, String>((
   return state.errorMessage;
 });
 
-/// Provider for image gallery state
 final imageGalleryStateProvider = Provider.family<bool, String>((
   ref,
   campsiteId,
@@ -125,7 +113,6 @@ final imageGalleryStateProvider = Provider.family<bool, String>((
   return state.isImageGalleryOpen;
 });
 
-/// Provider for current image index
 final currentImageIndexProvider = Provider.family<int, String>((
   ref,
   campsiteId,

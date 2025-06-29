@@ -35,31 +35,18 @@ class CampsitePopup extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Image Header
               _buildImageHeader(),
-
-              // Content
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Title and Price Row
                     _buildTitleAndPrice(),
-
                     const SizedBox(height: 8),
-
-                    // Description
                     _buildDescription(),
-
                     const SizedBox(height: 12),
-
-                    // Amenities
                     _buildAmenities(),
-
                     const SizedBox(height: 12),
-
-                    // Suitable For and Languages
                     _buildBottomInfo(),
                   ],
                 ),
@@ -82,7 +69,6 @@ class CampsitePopup extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: [
-            // Background Image
             CachedNetworkImage(
               imageUrl: campsite.photo,
               height: 120,
@@ -110,8 +96,6 @@ class CampsitePopup extends StatelessWidget {
                     ),
                   ),
             ),
-
-            // Price Badge
             Positioned(
               top: 12,
               right: 12,
@@ -168,7 +152,7 @@ class CampsitePopup extends StatelessWidget {
         Icon(Icons.star, size: 16, color: Colors.amber[600]),
         const SizedBox(width: 4),
         Text(
-          '4.${(campsite.pricePerNight * 0.1).round()}', // Mock rating based on price
+          '4.${(campsite.pricePerNight * 0.1).round()}',
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -243,7 +227,6 @@ class CampsitePopup extends StatelessWidget {
   Widget _buildBottomInfo() {
     return Row(
       children: [
-        // Suitable For
         if (campsite.suitableFor.isNotEmpty) ...[
           Icon(Icons.people_outline, size: 16, color: Colors.black45),
           const SizedBox(width: 4),
@@ -259,8 +242,6 @@ class CampsitePopup extends StatelessWidget {
             ),
           ),
         ],
-
-        // Languages
         if (campsite.hostLanguages.isNotEmpty) ...[
           const SizedBox(width: 12),
           Icon(Icons.language, size: 16, color: Colors.black45),

@@ -3,7 +3,7 @@ import 'dart:developer' as developer;
 enum LogLevel { debug, info, warning, error }
 
 class Logger {
-  static const String _tag = 'WellnessTracker';
+  static const String _tag = 'CamperBlis';
 
   static void debug(String message, {String? tag}) {
     _log(LogLevel.debug, message, tag: tag);

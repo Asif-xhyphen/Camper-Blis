@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_cancellable_tile_provider/flutter_map_cancellable_tile_provider.dart';
@@ -17,7 +16,6 @@ import '../controllers/filter_controller.dart';
 import '../controllers/flutter_map_controller.dart';
 import '../controllers/campsite_controller.dart';
 import '../widgets/campsite_card.dart';
-import '../widgets/campsite_popup.dart';
 import '../../domain/entities/campsite.dart';
 import '../widgets/filter_bottom_sheet.dart';
 import '../widgets/web_filter_bar.dart';
@@ -49,7 +47,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
   bool _isSearchFocused = false;
   bool _isTyping = false;
 
-  // Flutter Map controller
   late final MapController _mapController;
   late final PopupController _popupController;
 
@@ -60,16 +57,13 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
     _mapController = MapController();
     _popupController = PopupController();
 
-    // Load campsites when page initializes
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(campsiteControllerProvider.notifier).loadCampsites();
-      // Set the map controller in the provider
       ref
           .read(flutterMapControllerProvider.notifier)
           .setMapController(_mapController, _popupController);
     });
 
-    // Initialize animations
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -85,7 +79,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
       vsync: this,
     );
 
-    // Start with list visible
     _listAnimationController.forward();
 
     _scaleAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
@@ -117,7 +110,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
       ),
     );
 
-    // Listen to focus changes
     _searchFocusNode.addListener(() {
       setState(() {
         _isSearchFocused = _searchFocusNode.hasFocus;
@@ -149,13 +141,12 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
     final hasActiveFilters = ref.watch(hasActiveFiltersProvider);
     final activeFilterCount = ref.watch(activeFilterCountProvider);
 
-    // Listen to popup visibility changes and animate list accordingly
     ref.listen<FlutterMapState>(flutterMapControllerProvider, (previous, next) {
       if (previous?.isPopupVisible != next.isPopupVisible) {
         if (next.isPopupVisible) {
-          _listAnimationController.reverse(); // Hide list
+          _listAnimationController.reverse();
         } else {
-          _listAnimationController.forward(); // Show list
+          _listAnimationController.forward();
         }
       }
     });
@@ -191,14 +182,12 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                       hasActiveFilters,
                       activeFilterCount,
                     ),
-                    // Web filter bar for larger screens
                     if (ResponsiveLayout.isDesktop(context))
                       const WebFilterBar(),
                   ],
                 ),
               ),
 
-              // Animated bottom campsite list
               Positioned(
                 bottom: 10,
                 left: 0,
@@ -207,11 +196,7 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                   animation: _listSlideAnimation,
                   builder: (context, child) {
                     return Transform.translate(
-                      offset: Offset(
-                        0,
-                        (1 - _listSlideAnimation.value) *
-                            200, // Slide down 200px when hidden
-                      ),
+                      offset: Offset(0, (1 - _listSlideAnimation.value) * 200),
                       child: Opacity(
                         opacity: _listSlideAnimation.value,
                         child: _buildCampsiteList(
@@ -254,7 +239,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
       );
     }
 
-    // Filter campsites by search query
     final filteredCampsites =
         state.filteredCampsites.where((campsite) {
           if (searchQuery.isEmpty) return true;
@@ -283,7 +267,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                 campsite: campsite,
                 isSelected: isSelected,
                 onTap: () {
-                  // Select campsite when tapped from list and center camera
                   ref
                       .read(flutterMapControllerProvider.notifier)
                       .selectCampsite(
@@ -293,20 +276,12 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                           campsite.geoLocation.longitude,
                         ),
                       );
-                  _navigateToCampsiteDetail(campsite);
+                  context.go('/map/campsite/${campsite.id}');
                 },
               );
             }).toList(),
       ),
     );
-  }
-
-  Campsite? _getSelectedCampsite(CampsiteState state, String campsiteId) {
-    try {
-      return state.filteredCampsites.firstWhere((c) => c.id == campsiteId);
-    } catch (e) {
-      return null;
-    }
   }
 
   Widget _buildFlutterMap(
@@ -332,24 +307,20 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
         maxZoom: 18,
         minZoom: 3,
         onTap: (tapPosition, point) {
-          // Clear selection when tapping empty area
           ref.read(flutterMapControllerProvider.notifier).clearSelection();
         },
         onPositionChanged: (position, hasGesture) {
-          // Update clustering when zoom changes
           if (hasGesture) {
             ref.read(flutterMapControllerProvider.notifier).onZoomChanged();
           }
         },
       ),
       children: [
-        // OpenStreetMap tile layer
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.camper_blis',
           tileProvider: CancellableNetworkTileProvider(),
         ),
-        // Markers layer
         MarkerClusterLayerWidget(
           options: MarkerClusterLayerOptions(
             spiderfyCircleRadius: 80,
@@ -417,7 +388,7 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
         ),
         child: CompactCampsiteCard(
           campsite: campsite,
-          onTap: () => _navigateToCampsiteDetail(campsite),
+          onTap: () => context.go('/map/campsite/${campsite.id}'),
         ),
       ),
     );
@@ -427,7 +398,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // Toggle clustering button
         FloatingActionButton(
           heroTag: "toggle_clustering",
           mini: true,
@@ -462,47 +432,8 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
           foregroundColor: AppColors.textPrimary,
           child: const Icon(Icons.zoom_out),
         ),
-        const SizedBox(height: Dimensions.spaceL),
-        FloatingActionButton(
-          heroTag: "list_view",
-          onPressed: () => _navigateToListView(),
-          backgroundColor: AppColors.primaryGreen,
-          foregroundColor: AppColors.textOnPrimary,
-          child: const Icon(Icons.list),
-        ),
       ],
     );
-  }
-
-  void _navigateToCampsiteDetail(Campsite campsite) {
-    // Navigate to detail page using GoRouter
-    context.go('/campsite/${campsite.id}');
-  }
-
-  void _navigateToListView() {
-    // Switch to list view tab (index 0) in bottom navigation
-    // This will be handled by the parent navigation widget
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Switch to Home tab to see list view')),
-    );
-  }
-
-  /// Scroll horizontal list to the selected campsite item
-  void _scrollToCampsiteItem(String campsiteId, List<Campsite> campsites) {
-    final index = campsites.indexWhere((campsite) => campsite.id == campsiteId);
-    if (index != -1) {
-      // Calculate the offset to scroll to the item
-      // Each card is approximately 220px wide (200px + margins)
-      const double cardWidth = 220.0;
-      final double targetOffset = index * cardWidth;
-
-      // Scroll to the target position with animation
-      _horizontalScrollController.animateTo(
-        targetOffset,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    }
   }
 
   Widget _buildSearchOverlay() {
@@ -579,7 +510,6 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                         _isTyping = query.isNotEmpty;
                       });
 
-                      // Trigger typing animation
                       if (query.isNotEmpty) {
                         _typingAnimationController.repeat(reverse: true);
                       } else {

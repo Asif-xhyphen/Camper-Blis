@@ -5,6 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:camper_blis/core/layout/main_navigation_shell.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -133,57 +134,6 @@ void main() {
       expect(materialApp.title, Strings.appName);
       expect(materialApp.debugShowCheckedModeBanner, false);
       expect(materialApp.theme, isNotNull);
-    });
-  });
-
-  group('MainNavigationPage', () {
-    testWidgets('IndexedStack maintains page state', (
-      WidgetTester tester,
-    ) async {
-      await tester.pumpWidget(
-        const ProviderScope(child: MaterialApp(home: MainNavigationPage())),
-      );
-      await tester.pumpAndSettle();
-
-      // Verify IndexedStack is used for maintaining state
-      expect(find.byType(IndexedStack), findsOneWidget);
-
-      // Verify all pages are in the widget tree (even if not visible)
-      final IndexedStack indexedStack = tester.widget(
-        find.byType(IndexedStack),
-      );
-      expect(indexedStack.children.length, 4);
-    });
-  });
-
-  group('PlaceholderPage', () {
-    testWidgets('Displays correct content for custom title and icon', (
-      WidgetTester tester,
-    ) async {
-      const testTitle = 'Test Feature';
-      const testIcon = Icons.star;
-
-      await tester.pumpWidget(
-        const ProviderScope(
-          child: MaterialApp(
-            home: PlaceholderPage(title: testTitle, icon: testIcon),
-          ),
-        ),
-      );
-
-      // Verify custom content is displayed
-      expect(find.text(testTitle), findsNWidgets(2)); // AppBar + body
-      expect(find.byIcon(testIcon), findsOneWidget);
-      expect(find.text('Coming Soon!'), findsOneWidget);
-      expect(
-        find.text('🚧 This feature will be implemented in future phases 🚧'),
-        findsOneWidget,
-      );
-
-      // Verify AppBar is present and centered
-      expect(find.byType(AppBar), findsOneWidget);
-      final AppBar appBar = tester.widget(find.byType(AppBar));
-      expect(appBar.centerTitle, true);
     });
   });
 }

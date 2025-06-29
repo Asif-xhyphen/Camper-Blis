@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../controllers/filter_controller.dart';
 import '../controllers/campsite_controller.dart';
@@ -7,7 +8,6 @@ import '../../../../shared/theme/colors.dart';
 import '../../../../shared/constants/dimensions.dart';
 import '../../../../shared/theme/text_styles.dart';
 
-/// Web-optimized filter bar for larger screens
 class WebFilterBar extends ConsumerWidget {
   const WebFilterBar({super.key});
 
@@ -37,30 +37,23 @@ class WebFilterBar extends ConsumerWidget {
         runSpacing: Dimensions.spaceS,
         alignment: WrapAlignment.center,
         children: [
-          // Languages filter
           _buildFilterChip(
             label: 'Languages',
             isActive: filterState.hostLanguages.isNotEmpty,
             count: filterState.hostLanguages.length,
             onTap: () => _showLanguageDialog(context, ref),
           ),
-
-          // Price range filter
           _buildFilterChip(
             label: 'Price',
             isActive:
                 filterState.maxPrice != null || filterState.minPrice != null,
             onTap: () => _showPriceDialog(context, ref),
           ),
-
-          // Amenities filter
           _buildFilterChip(
             label: 'Amenities',
             isActive: _hasAmenityFilters(filterState),
             onTap: () => _showAmenitiesDialog(context, ref),
           ),
-
-          // Clear filters
           if (hasActiveFilters)
             TextButton.icon(
               onPressed: () {
@@ -182,7 +175,7 @@ class WebFilterBar extends ConsumerWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 child: const Text('Done'),
               ),
             ],
@@ -248,7 +241,7 @@ class WebFilterBar extends ConsumerWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
                 child: const Text('Done'),
               ),
             ],

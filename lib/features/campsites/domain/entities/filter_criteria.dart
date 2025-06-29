@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'filter_criteria.freezed.dart';
 
-/// Filter criteria for campsite search
 @freezed
 class FilterCriteria with _$FilterCriteria {
   const factory FilterCriteria({
@@ -15,7 +14,6 @@ class FilterCriteria with _$FilterCriteria {
 
   const FilterCriteria._();
 
-  /// Check if any filters are active
   bool get hasActiveFilters {
     return isCloseToWater != null ||
         isCampFireAllowed != null ||
@@ -24,7 +22,6 @@ class FilterCriteria with _$FilterCriteria {
         maxPrice != null;
   }
 
-  /// Get the number of active filters
   int get activeFilterCount {
     int count = 0;
     if (isCloseToWater != null) count++;
@@ -35,12 +32,10 @@ class FilterCriteria with _$FilterCriteria {
     return count;
   }
 
-  /// Clear all filters
   FilterCriteria clearAll() {
     return const FilterCriteria();
   }
 
-  /// Check if price is within range
   bool isPriceInRange(double price) {
     final bool aboveMin = minPrice == null || price >= minPrice!;
     final bool belowMax = maxPrice == null || price <= maxPrice!;

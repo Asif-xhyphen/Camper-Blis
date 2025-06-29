@@ -1,0 +1,200 @@
+// Form Management Flutter App - Project Rules and Guidelines
+// Version 1.0.0
+
+// Technical Stack
+const technicalStack = {
+    "framework": "Flutter 3.x",
+    "stateManagement": "Riverpod 2.x",
+    "database": "drift (SQLite)",
+    "apiClient": "dio",
+    "codeGeneration": ["build_runner", "freezed"],
+    "navigation": "go_router",
+    "testing": ["mockito", "integration_test"],
+};
+
+// Project Structure
+const projectStructure = `
+lib/
+  ├── core/
+  │   ├── config/
+  │   │   ├── app_config.dart
+  │   │   └── environment.dart
+  │   ├── error/
+  │   │   ├── exceptions.dart
+  │   │   └── failures.dart
+  │   ├── network/
+  │   │   ├── dio_client.dart
+  │   │   └── interceptors/
+  │   └── utils/
+  │       └── validators.dart
+  ├── features/
+  │   └── form/
+  │       ├── presentation/
+  │       │   ├── pages/
+  │       │   ├── widgets/
+  │       │   └── controllers/
+  │       ├── domain/
+  │       │   ├── entities/
+  │       │   ├── repositories/
+  │       │   └── usecases/
+  │       └── data/
+  │           ├── models/
+  │           ├── datasources/
+  │           └── repositories/
+  └── shared/
+      ├── theme/
+      ├── constants/
+      └── widgets/
+`;
+
+// Architecture Rules
+const architectureRules = {
+    "cleanArchitecture": [
+        "Strict separation between layers (presentation, domain, data)",
+        "Dependencies only point inwards",
+        "Domain layer contains business logic and entities",
+        "Data layer implements repositories and handles data sources",
+        "Presentation layer contains UI and state management"
+    ],
+    "stateManagement": [
+        "Use StateNotifier for complex state",
+        "Implement proper state immutability with freezed",
+        "Keep providers scoped to features",
+        "Use family providers for parameterized state",
+        "Avoid global state when possible"
+    ],
+    "database": [
+        "All database operations must be asynchronous",
+        "Implement proper migration strategies",
+        "Use transactions for related operations",
+        "Cache frequently accessed data",
+        "Define type-safe database queries using drift"
+    ],
+    "apiCommunication": [
+        "Implement proper error handling with Either type",
+        "Use interceptors for logging and authentication",
+        "Follow REST principles",
+        "Implement retry mechanisms for failed requests",
+        "Mock API responses for testing and development"
+    ]
+};
+
+// Coding Standards
+const codingStandards = {
+    "general": [
+        "Use proper null safety practices",
+        "Follow consistent naming conventions",
+        "Keep methods and classes focused and small",
+        "Use proper error handling with Either type",
+        "Implement proper dependency injection"
+    ],
+    "testing": [
+        "Write unit tests for all business logic",
+        "Implement widget tests for UI components",
+        "Use integration tests for critical flows",
+        "Maintain minimum 80% code coverage",
+        "Mock all external dependencies"
+    ],
+    "documentation": [
+        "Inline documentation for complex logic",
+        "Maintain up-to-date README.md",
+        "Document all public APIs",
+        "Create and maintain ADRs",
+        "Document state management flows"
+    ]
+};
+
+// Form Implementation Guidelines
+const formGuidelines = {
+    "validation": [
+        "Implement client-side validation",
+        "Use proper form keys",
+        "Show clear error messages",
+        "Implement proper form state management",
+        "Handle all edge cases"
+    ],
+    "dataFlow": [
+        "Save form data to local database first",
+        "Implement proper offline support",
+        "Queue API submissions for poor connectivity",
+        "Show proper loading and error states",
+        "Implement proper retry mechanisms"
+    ]
+};
+
+// Performance Guidelines
+const performanceGuidelines = [
+    "Use const constructors when possible",
+    "Implement proper widget rebuilding strategies",
+    "Cache network responses",
+    "Optimize database queries",
+    "Use proper image caching",
+    "Implement pagination for lists"
+];
+
+// Security Guidelines
+const securityGuidelines = [
+    "Encrypt sensitive data in local storage",
+    "Implement proper API key management",
+    "Use secure HTTP communication",
+    "Implement proper error handling without exposing sensitive info",
+    "Follow platform-specific security best practices"
+];
+
+// Git Workflow
+const gitWorkflow = {
+    "branchNaming": "feature/[feature-name] or fix/[fix-name]",
+    "commitMessage": "type(scope): description",
+    "prTemplate": "Use provided PR template with checklist",
+    "codeReview": "Minimum 1 reviewer required",
+    "cicd": "All tests must pass before merge"
+};
+
+// Unimplemented Parts (Design Decisions)
+const unimplementedParts = {
+    "authentication": "Will be implemented using Firebase Auth",
+    "analytics": "Will use Firebase Analytics for tracking",
+    "pushNotifications": "Will be implemented using Firebase Cloud Messaging",
+    "dataSync": "Will implement background sync using WorkManager"
+};
+
+// Quality Control Checklist
+const qualityControl = {
+    "codeStandards": [
+        "Null safety implemented",
+        "Proper error handling",
+        "Documentation added",
+        "Tests written"
+    ],
+    "architectureCompliance": [
+        "Layer separation maintained",
+        "Dependencies point inward",
+        "State management follows rules"
+    ],
+    "performance": [
+        "Const constructors used",
+        "Proper widget rebuilding",
+        "Database queries optimized"
+    ]
+};
+
+// Step 1: Database Setup
+// "Create drift database setup for form storage:
+// - Follow database rules from architectureRules
+// - Implement async operations
+// - Include migration strategy
+// Path: lib/features/form/data/datasources/local/database.dart"
+
+// Step 2: Repository Implementation
+// "Implement form repository with:
+// - Either type for error handling
+// - Proper offline support
+// - Queue mechanism for API submissions
+// Path: lib/features/form/data/repositories/form_repository_impl.dart"
+
+// Step 3: State Management
+// "Create form state management with Riverpod:
+// - Follow stateManagement rules
+// - Implement proper state immutability
+// - Include loading and error states
+// Path: lib/features/form/presentation/controllers/form_controller.dart" 

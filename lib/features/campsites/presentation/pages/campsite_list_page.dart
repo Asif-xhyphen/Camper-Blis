@@ -121,15 +121,12 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
             children: [
               _buildSearchOverlay(),
               _buildFilterChips(context, hasActiveFilters, activeFilterCount),
-              // Web filter bar for larger screens
               if (ResponsiveLayout.isDesktop(context)) const WebFilterBar(),
-              // Campsite List
               Expanded(child: _buildCampsiteList(campsiteState, _searchQuery)),
             ],
           ),
         ),
       ),
-      // Filter FAB for mobile/tablet
       floatingActionButton:
           ResponsiveLayout.isMobile(context) ||
                   ResponsiveLayout.isTablet(context)
@@ -234,7 +231,6 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
                         _isTyping = query.isNotEmpty;
                       });
 
-                      // Trigger typing animation
                       if (query.isNotEmpty) {
                         _typingAnimationController.repeat(reverse: true);
                       } else {
@@ -340,7 +336,6 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
       );
     }
 
-    // Filter campsites by search query
     final filteredCampsites =
         state.filteredCampsites.where((campsite) {
           if (searchQuery.isEmpty) return true;
@@ -384,7 +379,7 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
         crossAxisCount: ResponsiveLayout.getColumns(context),
         crossAxisSpacing: Dimensions.paddingM,
         mainAxisSpacing: Dimensions.paddingM,
-        childAspectRatio: 0.75, // Adjust as needed for card proportions
+        childAspectRatio: 0.75,
       ),
       itemCount: campsites.length,
       itemBuilder: (context, index) {
@@ -449,11 +444,10 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
   }
 
   void _navigateToCampsiteDetail(String campsiteId) {
-    context.go('/campsite/$campsiteId');
+    context.go('/campsite-list/campsite/$campsiteId');
   }
 }
 
-/// Alternative compact list view
 class CompactCampsiteListView extends ConsumerWidget {
   const CompactCampsiteListView({
     super.key,
@@ -461,7 +455,7 @@ class CompactCampsiteListView extends ConsumerWidget {
     this.onCampsiteTap,
   });
 
-  final List<dynamic> campsites; // Using dynamic to avoid circular import
+  final List<dynamic> campsites;
   final Function(String)? onCampsiteTap;
 
   @override
@@ -488,7 +482,6 @@ class CompactCampsiteListView extends ConsumerWidget {
   }
 }
 
-/// Search bar widget for reuse
 class CampsiteSearchBar extends StatefulWidget {
   const CampsiteSearchBar({
     super.key,

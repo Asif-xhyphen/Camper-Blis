@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'colors.dart';
 
-/// Typography system following the design specification
 class AppTextStyles {
-  // Font family from design spec
   static const String fontFamily = 'Inter';
 
-  // Heading styles
   static const TextStyle headingLarge = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w700,
@@ -31,7 +28,6 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Body styles
   static const TextStyle bodyLarge = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
@@ -56,7 +52,6 @@ class AppTextStyles {
     color: AppColors.textLight,
   );
 
-  // Button style
   static const TextStyle button = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w600,
@@ -64,7 +59,6 @@ class AppTextStyles {
     height: 1.2,
   );
 
-  // Additional utility styles
   static const TextStyle caption = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
@@ -82,7 +76,6 @@ class AppTextStyles {
     color: AppColors.textSecondary,
   );
 
-  // Price and special emphasis styles
   static const TextStyle price = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w700,
@@ -99,7 +92,6 @@ class AppTextStyles {
     color: AppColors.primary,
   );
 
-  // Rating styles
   static const TextStyle rating = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w600,
@@ -116,7 +108,6 @@ class AppTextStyles {
     color: AppColors.textPrimary,
   );
 
-  // Error and success styles
   static const TextStyle error = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w400,
@@ -133,7 +124,6 @@ class AppTextStyles {
     color: AppColors.success,
   );
 
-  // Link style
   static const TextStyle link = TextStyle(
     fontFamily: fontFamily,
     fontWeight: FontWeight.w500,
@@ -143,7 +133,6 @@ class AppTextStyles {
     decoration: TextDecoration.underline,
   );
 
-  // Helper methods for creating variations
   static TextStyle headingLargeWith({
     Color? color,
     FontWeight? fontWeight,

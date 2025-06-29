@@ -1,19 +1,15 @@
-/// String constants for UI text throughout the application
 class Strings {
-  // App information
   static const String appName = 'Camper Blis';
   static const String appTagline = 'Discover Your Perfect Campsite';
   static const String appDescription =
       'Find and explore amazing campsites around the world';
 
-  // Navigation
   static const String homeTab = 'Home';
   static const String mapTab = 'Map';
   static const String favoritesTab = 'Favorites';
   static const String profileTab = 'Profile';
   static const String searchTab = 'Search';
 
-  // Common actions
   static const String search = 'Search';
   static const String filter = 'Filter';
   static const String reset = 'Reset';
@@ -35,7 +31,6 @@ class Strings {
   static const String yes = 'Yes';
   static const String no = 'No';
 
-  // List and cards
   static const String noCampsitesFound = 'No campsites found';
   static const String noCampsitesMessage =
       'Try adjusting your filters or search terms';
@@ -47,7 +42,6 @@ class Strings {
   static const String showMore = 'Show more';
   static const String showLess = 'Show less';
 
-  // Search
   static const String searchCampsites = 'Search campsites...';
   static const String searchByName = 'Search by name or location';
   static const String recentSearches = 'Recent searches';
@@ -55,7 +49,6 @@ class Strings {
   static const String noRecentSearches = 'No recent searches';
   static const String searchResults = 'Search results';
 
-  // Filters
   static const String filters = 'Filters';
   static const String filterByCountry = 'Filter by Country';
   static const String filterByPrice = 'Filter by Price';
@@ -74,7 +67,6 @@ class Strings {
   static const String campfireAllowed = 'Campfire Allowed';
   static const String hostLanguage = 'Host Language';
 
-  // Campsite details
   static const String perNight = 'per night';
   static const String pricePerNight = 'Price per night';
   static const String viewDetails = 'View Details';
@@ -93,7 +85,6 @@ class Strings {
   static const String country = 'Country';
   static const String coordinates = 'Coordinates';
 
-  // Map
   static const String showOnMap = 'Show on Map';
   static const String openInMaps = 'Open in Maps';
   static const String satellite = 'Satellite';
@@ -105,7 +96,6 @@ class Strings {
   static const String directions = 'Directions';
   static const String distance = 'Distance';
 
-  // Errors
   static const String error = 'Error';
   static const String genericError = 'Something went wrong';
   static const String networkError = 'Check your internet connection';
@@ -122,13 +112,11 @@ class Strings {
   static const String serviceUnavailable = 'Service unavailable';
   static const String connectionFailed = 'Connection failed';
 
-  // Success messages
   static const String success = 'Success';
   static const String dataLoaded = 'Data loaded successfully';
   static const String dataRefreshed = 'Data refreshed';
   static const String settingsSaved = 'Settings saved';
 
-  // Loading states
   static const String initializing = 'Initializing...';
   static const String connecting = 'Connecting...';
   static const String synchronizing = 'Synchronizing...';
@@ -136,28 +124,24 @@ class Strings {
   static const String downloadingData = 'Downloading data...';
   static const String preparingData = 'Preparing data...';
 
-  // Empty states
   static const String noDataAvailable = 'No data available';
   static const String emptyList = 'List is empty';
   static const String noFavorites = 'No favorites yet';
   static const String noHistory = 'No history';
   static const String startExploring = 'Start exploring campsites';
 
-  // Currencies and units
   static const String euro = '€';
   static const String dollar = '\$';
   static const String kilometers = 'km';
   static const String miles = 'mi';
   static const String meters = 'm';
 
-  // Time and dates
   static const String today = 'Today';
   static const String yesterday = 'Yesterday';
   static const String lastWeek = 'Last week';
   static const String lastMonth = 'Last month';
   static const String never = 'Never';
 
-  // Accessibility
   static const String searchButton = 'Search button';
   static const String filterButton = 'Filter button';
   static const String campsiteCard = 'Campsite card';
@@ -167,7 +151,6 @@ class Strings {
   static const String closeButton = 'Close button';
   static const String menuButton = 'Menu button';
 
-  // Settings (for future use)
   static const String settings = 'Settings';
   static const String preferences = 'Preferences';
   static const String notifications = 'Notifications';
@@ -180,7 +163,6 @@ class Strings {
   static const String darkMode = 'Dark Mode';
   static const String lightMode = 'Light Mode';
 
-  // Validation messages
   static const String fieldRequired = 'This field is required';
   static const String invalidEmail = 'Invalid email address';
   static const String invalidUrl = 'Invalid URL';

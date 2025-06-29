@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/entities/filter_criteria.dart';
 import '../controllers/filter_controller.dart';
@@ -48,7 +49,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Handle bar
           Center(
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingS),
@@ -60,8 +60,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
               ),
             ),
           ),
-
-          // Header
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: Dimensions.paddingM,
@@ -88,20 +86,14 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
               ],
             ),
           ),
-
           const Divider(height: 1),
-
-          // Filter Content
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(Dimensions.paddingM),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Country Filter - REMOVED as not in API response
                   const SizedBox(height: Dimensions.spaceL),
-
-                  // Water Proximity Filter
                   _FilterSection(
                     title: 'Close to Water',
                     child: SwitchListTile(
@@ -118,8 +110,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                   ),
 
                   const SizedBox(height: Dimensions.spaceL),
-
-                  // Campfire Filter
                   _FilterSection(
                     title: 'Campfire Allowed',
                     child: SwitchListTile(
@@ -134,10 +124,8 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
                       },
                     ),
                   ),
-
                   const SizedBox(height: Dimensions.spaceL),
 
-                  // Host Languages Filter
                   _FilterSection(
                     title: 'Host Languages',
                     child: _LanguageFilter(
@@ -156,7 +144,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
 
                   const SizedBox(height: Dimensions.spaceL),
 
-                  // Price Range Filter
                   _FilterSection(
                     title: 'Price per Night',
                     child: _PriceRangeFilter(
@@ -180,8 +167,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
               ),
             ),
           ),
-
-          // Action Buttons
           Container(
             padding: const EdgeInsets.all(Dimensions.paddingM),
             decoration: const BoxDecoration(
@@ -193,7 +178,7 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => Navigator.of(context).pop(),
+                    onPressed: () => context.pop(),
                     child: const Text('Cancel'),
                   ),
                 ),
@@ -221,14 +206,11 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
   }
 
   void _applyFilters() {
-    // Update the filter state in the provider using controller methods
     final filterController = ref.read(filterControllerProvider.notifier);
     final campsiteController = ref.read(campsiteControllerProvider.notifier);
 
-    // Clear existing filters first
     filterController.clearAllFilters();
 
-    // Apply new filters
     filterController.updateWaterProximity(_tempFilters.isCloseToWater);
     filterController.updateCampfireAllowed(_tempFilters.isCampFireAllowed);
     filterController.updateHostLanguages(_tempFilters.hostLanguages);
@@ -237,7 +219,6 @@ class _FilterBottomSheetState extends ConsumerState<FilterBottomSheet> {
       maxPrice: _tempFilters.maxPrice,
     );
 
-    // Apply filters to campsites
     campsiteController.applyFilters(_tempFilters);
 
     Navigator.of(context).pop();
@@ -400,7 +381,7 @@ class _PriceRangeFilter extends StatelessWidget {
           values: range,
           min: min,
           max: max,
-          divisions: 100, // Fixed number of divisions for better UX
+          divisions: 100,
           onChanged: onChanged,
           activeColor: AppColors.primaryGreen,
           inactiveColor: AppColors.border,
@@ -427,7 +408,6 @@ class _PriceRangeFilter extends StatelessWidget {
   }
 }
 
-/// Show filter bottom sheet
 void showFilterBottomSheet(BuildContext context) {
   showModalBottomSheet<void>(
     context: context,
