@@ -1,10 +1,7 @@
 // import 'package:camper_blis/features/campsites/data/datasources/local/native.dart'
 //     as native;
-import 'package:camper_blis/features/campsites/data/datasources/local/web.dart'
-    as web;
+import 'package:camper_blis/features/campsites/data/datasources/local/connection.dart';
 import 'package:drift/drift.dart';
-import 'package:flutter/foundation.dart';
-
 import '../../../../../core/config/app_config.dart';
 
 part 'database.g.dart';
@@ -43,7 +40,7 @@ class CacheMetadata extends Table {
 /// Drift database for local campsite data storage
 @DriftDatabase(tables: [Campsites, CacheMetadata])
 class CampsiteDatabase extends _$CampsiteDatabase {
-  CampsiteDatabase() : super(openConnection());
+  CampsiteDatabase() : super(connect());
 
   @override
   int get schemaVersion => AppConfig.databaseVersion;
@@ -184,12 +181,4 @@ class CampsiteDatabase extends _$CampsiteDatabase {
       'isExpired': await isCacheExpired('campsites'),
     };
   }
-}
-
-openConnection() {
-  // import respoctive connect from web.dart or native.dart
-  if (kIsWeb) {
-    return web.connect();
-  }
-  // return native.connect();
 }
