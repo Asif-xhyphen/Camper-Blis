@@ -134,7 +134,7 @@ class CampsiteCardUnified extends ConsumerWidget {
               ),
             ),
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
