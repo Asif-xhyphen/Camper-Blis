@@ -1,11 +1,10 @@
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 class AppConfig {
   static const String appName = 'Camper Blis';
   static const String appVersion = '1.0.0';
 
   // API Configuration
-  static String baseUrl = dotenv.env['BASE_URL'] ?? '';
+  static const String baseUrl =
+      'https://62ed0389a785760e67622eb2.mockapi.io/spots/v1';
 
   // Database Configuration
   static const String databaseName = 'camper_blis.db';

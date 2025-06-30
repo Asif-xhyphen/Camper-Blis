@@ -592,7 +592,7 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage> {
               // Background Image
               Positioned.fill(
                 child: Image.network(
-                  campsite.photo,
+                  campsite.photo.replaceFirst('http://', 'https://'),
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) {
                     return Container(

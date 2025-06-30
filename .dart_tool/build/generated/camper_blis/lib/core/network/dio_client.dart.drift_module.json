@@ -1,8 +1,0 @@
-{
-  "elements": {},
-  "imports": [
-    "package:dio/dio.dart",
-    "package:camper_blis/core/config/app_config.dart",
-    "package:camper_blis/core/config/environment.dart"
-  ]
-}

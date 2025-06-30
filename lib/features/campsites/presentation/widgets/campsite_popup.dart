@@ -70,7 +70,7 @@ class CampsitePopup extends StatelessWidget {
         child: Stack(
           children: [
             CachedNetworkImage(
-              imageUrl: campsite.photo,
+              imageUrl: campsite.photo.replaceFirst('http://', 'https://'),
               height: 120,
               width: double.infinity,
               fit: BoxFit.cover,

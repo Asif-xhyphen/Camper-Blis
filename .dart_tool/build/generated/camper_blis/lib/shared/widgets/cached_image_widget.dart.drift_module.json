@@ -1,9 +1,0 @@
-{
-  "elements": {},
-  "imports": [
-    "package:flutter/material.dart",
-    "package:cached_network_image/cached_network_image.dart",
-    "package:camper_blis/shared/theme/colors.dart",
-    "package:camper_blis/shared/constants/dimensions.dart"
-  ]
-}

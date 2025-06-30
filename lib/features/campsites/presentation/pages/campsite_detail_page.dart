@@ -224,7 +224,7 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage>
                       bottomRight: Radius.circular(24),
                     ),
                     child: Image.network(
-                      campsite.photo,
+                      campsite.photo.replaceFirst('http://', 'https://'),
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
@@ -285,7 +285,10 @@ class _CampsiteDetailPageState extends ConsumerState<CampsiteDetailPage>
                             ),
                             child: ClipOval(
                               child: Image.network(
-                                campsite.photo,
+                                campsite.photo.replaceFirst(
+                                  'http://',
+                                  'https://',
+                                ),
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(

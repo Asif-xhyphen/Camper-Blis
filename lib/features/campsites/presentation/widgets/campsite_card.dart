@@ -81,7 +81,7 @@ class HorizontalCampsiteCard extends StatelessWidget {
       height: imageHeight,
       width: 200,
       child: CachedNetworkImage(
-        imageUrl: campsite.photo,
+        imageUrl: campsite.photo.replaceFirst('http://', 'https://'),
         fit: BoxFit.fitWidth,
         placeholder:
             (context, url) => Container(
@@ -257,7 +257,7 @@ class _CampsiteCardState extends State<CampsiteCard> {
       height: imageHeight,
       width: double.infinity,
       child: CachedNetworkImage(
-        imageUrl: widget.campsite.photo,
+        imageUrl: widget.campsite.photo.replaceFirst('http://', 'https://'),
         fit: BoxFit.cover,
         placeholder:
             (context, url) => Container(
@@ -486,7 +486,7 @@ class CompactCampsiteCard extends StatelessWidget {
                 height: Dimensions.campsiteCardImageHeight,
                 width: double.infinity,
                 child: CachedNetworkImage(
-                  imageUrl: campsite.photo,
+                  imageUrl: campsite.photo.replaceFirst('http://', 'https://'),
                   fit: BoxFit.cover,
                   placeholder:
                       (context, url) => Container(

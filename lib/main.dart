@@ -13,8 +13,6 @@ import 'core/utils/logger.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await dotenv.load(fileName: ".env");
-
   // Configure drift to suppress multiple database warnings in debug mode
   // This is safe since we're using keepAlive: true for the database provider
   driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;

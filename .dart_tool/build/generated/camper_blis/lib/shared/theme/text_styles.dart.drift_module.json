@@ -1,7 +1,0 @@
-{
-  "elements": {},
-  "imports": [
-    "package:flutter/material.dart",
-    "package:camper_blis/shared/theme/colors.dart"
-  ]
-}

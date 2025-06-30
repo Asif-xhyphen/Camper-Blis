@@ -190,7 +190,7 @@ class CampsiteCardUnified extends ConsumerWidget {
     return ClipRRect(
       borderRadius: borderRadius,
       child: Image.network(
-        campsite.photo,
+        campsite.photo.replaceFirst('http://', 'https://'),
         width: width,
         height: height,
         fit: BoxFit.cover,
@@ -213,7 +213,7 @@ class CampsiteCardUnified extends ConsumerWidget {
   Widget _buildFullImageBackground() {
     return Positioned.fill(
       child: Image.network(
-        campsite.photo,
+        campsite.photo.replaceFirst('http://', 'https://'),
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return Container(
