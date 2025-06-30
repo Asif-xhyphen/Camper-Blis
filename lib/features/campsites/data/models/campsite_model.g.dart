@@ -29,7 +29,7 @@ Map<String, dynamic> _$$CampsiteModelImplToJson(_$CampsiteModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'label': instance.label,
-      'geoLocation': instance.geoLocation,
+      'geoLocation': instance.geoLocation.toJson(),
       'createdAt': instance.createdAt,
       'isCloseToWater': instance.isCloseToWater,
       'isCampFireAllowed': instance.isCampFireAllowed,

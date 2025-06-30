@@ -60,9 +60,6 @@ dependencies:
   latlong2: ^0.9.1
   flutter_map_marker_cluster: ^1.4.0
   flutter_map_cancellable_tile_provider: ^3.0.2
-
-  # Calendar
-  table_calendar: ^3.1.2
   
   # JSON & Code Generation
   freezed_annotation: ^2.4.1
@@ -71,6 +68,8 @@ dependencies:
   # Either Type for Error Handling
   dartz: ^0.10.1
 
+  # Environment Variables
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +87,7 @@ dev_dependencies:
   mockito: ^5.4.4
   integration_test:
     sdk: flutter
+  test: ^1.24.9
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -136,6 +136,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/fonts/
+    - .env
 
   fonts:
     - family: Inter

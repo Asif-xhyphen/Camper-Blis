@@ -1,211 +1,302 @@
+import 'dart:math' as math;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:camper_blis/features/campsites/domain/entities/geo_location.dart';
 
 void main() {
-  group('GeoLocation Entity', () {
-    group('Constructor and Basic Properties', () {
+  group('GeoLocation', () {
+    group('constructor', () {
       test('should create GeoLocation with valid coordinates', () {
-        // Arrange & Act
-        const geoLocation = GeoLocation(latitude: 52.5200, longitude: 13.4050);
+        const geoLocation = GeoLocation(latitude: 52.5, longitude: 13.4);
 
-        // Assert
-        expect(geoLocation.latitude, 52.5200);
-        expect(geoLocation.longitude, 13.4050);
+        expect(geoLocation.latitude, 52.5);
+        expect(geoLocation.longitude, 13.4);
       });
 
-      test('should handle extreme valid coordinates', () {
-        // Test minimum values
-        const minGeoLocation = GeoLocation(latitude: -90.0, longitude: -180.0);
-        expect(minGeoLocation.latitude, -90.0);
-        expect(minGeoLocation.longitude, -180.0);
+      test('should create GeoLocation with boundary coordinates', () {
+        const maxCoords = GeoLocation(latitude: 90.0, longitude: 180.0);
+        const minCoords = GeoLocation(latitude: -90.0, longitude: -180.0);
 
-        // Test maximum values
-        const maxGeoLocation = GeoLocation(latitude: 90.0, longitude: 180.0);
-        expect(maxGeoLocation.latitude, 90.0);
-        expect(maxGeoLocation.longitude, 180.0);
+        expect(maxCoords.latitude, 90.0);
+        expect(maxCoords.longitude, 180.0);
+        expect(minCoords.latitude, -90.0);
+        expect(minCoords.longitude, -180.0);
+      });
 
-        // Test zero coordinates
-        const zeroGeoLocation = GeoLocation(latitude: 0.0, longitude: 0.0);
-        expect(zeroGeoLocation.latitude, 0.0);
-        expect(zeroGeoLocation.longitude, 0.0);
+      test('should create GeoLocation with zero coordinates', () {
+        const geoLocation = GeoLocation(latitude: 0.0, longitude: 0.0);
+
+        expect(geoLocation.latitude, 0.0);
+        expect(geoLocation.longitude, 0.0);
       });
     });
 
-    group('Business Logic Methods', () {
-      late GeoLocation berlinLocation;
-      late GeoLocation parisLocation;
-      late GeoLocation newYorkLocation;
+    group('isValid', () {
+      test('should return true for valid coordinates', () {
+        const validLocations = [
+          GeoLocation(latitude: 0.0, longitude: 0.0),
+          GeoLocation(latitude: 52.5, longitude: 13.4),
+          GeoLocation(latitude: -33.8, longitude: 151.2),
+          GeoLocation(latitude: 90.0, longitude: 180.0),
+          GeoLocation(latitude: -90.0, longitude: -180.0),
+        ];
 
-      setUp(() {
-        berlinLocation = const GeoLocation(
-          latitude: 52.5200,
-          longitude: 13.4050,
-        );
-        parisLocation = const GeoLocation(latitude: 48.8566, longitude: 2.3522);
-        newYorkLocation = const GeoLocation(
-          latitude: 40.7128,
-          longitude: -74.0060,
-        );
+        for (final location in validLocations) {
+          expect(
+            location.isValid,
+            true,
+            reason: 'Location $location should be valid',
+          );
+        }
       });
 
-      test('distanceTo should calculate distance correctly', () {
-        // Distance from Berlin to Paris (approximately 878 km)
-        final distanceBerlinParis = berlinLocation.distanceTo(parisLocation);
-        expect(distanceBerlinParis, closeTo(878, 50)); // Allow 50km tolerance
+      test('should return false for invalid latitude', () {
+        const invalidLatitudes = [
+          GeoLocation(latitude: 91.0, longitude: 0.0),
+          GeoLocation(latitude: -91.0, longitude: 0.0),
+          GeoLocation(latitude: 180.0, longitude: 0.0),
+          GeoLocation(latitude: -180.0, longitude: 0.0),
+        ];
 
-        // Distance from Berlin to New York (approximately 6385 km)
-        final distanceBerlinNY = berlinLocation.distanceTo(newYorkLocation);
-        expect(distanceBerlinNY, closeTo(6385, 100)); // Allow 100km tolerance
-
-        // Distance to same location should be 0
-        final distanceToSelf = berlinLocation.distanceTo(berlinLocation);
-        expect(distanceToSelf, closeTo(0, 0.1));
+        for (final location in invalidLatitudes) {
+          expect(
+            location.isValid,
+            false,
+            reason: 'Location $location should be invalid',
+          );
+        }
       });
 
-      test('isValid should validate coordinates correctly', () {
-        // Valid coordinates
-        expect(berlinLocation.isValid, true);
-        expect(parisLocation.isValid, true);
-        expect(newYorkLocation.isValid, true);
+      test('should return false for invalid longitude', () {
+        const invalidLongitudes = [
+          GeoLocation(latitude: 0.0, longitude: 181.0),
+          GeoLocation(latitude: 0.0, longitude: -181.0),
+          GeoLocation(latitude: 0.0, longitude: 360.0),
+          GeoLocation(latitude: 0.0, longitude: -360.0),
+        ];
 
-        // Edge valid coordinates
-        const validEdge1 = GeoLocation(latitude: 90.0, longitude: 180.0);
-        const validEdge2 = GeoLocation(latitude: -90.0, longitude: -180.0);
-        expect(validEdge1.isValid, true);
-        expect(validEdge2.isValid, true);
-
-        // Invalid coordinates
-        const invalidLat1 = GeoLocation(latitude: 91.0, longitude: 0.0);
-        const invalidLat2 = GeoLocation(latitude: -91.0, longitude: 0.0);
-        const invalidLng1 = GeoLocation(latitude: 0.0, longitude: 181.0);
-        const invalidLng2 = GeoLocation(latitude: 0.0, longitude: -181.0);
-
-        expect(invalidLat1.isValid, false);
-        expect(invalidLat2.isValid, false);
-        expect(invalidLng1.isValid, false);
-        expect(invalidLng2.isValid, false);
+        for (final location in invalidLongitudes) {
+          expect(
+            location.isValid,
+            false,
+            reason: 'Location $location should be invalid',
+          );
+        }
       });
 
-      test('displayCoordinates should format coordinates correctly', () {
-        expect(berlinLocation.displayCoordinates, '52.520000, 13.405000');
-        expect(parisLocation.displayCoordinates, '48.856600, 2.352200');
-        expect(newYorkLocation.displayCoordinates, '40.712800, -74.006000');
+      test('should return false when both coordinates are invalid', () {
+        const invalidLocations = [
+          GeoLocation(latitude: 91.0, longitude: 181.0),
+          GeoLocation(latitude: -91.0, longitude: -181.0),
+          GeoLocation(latitude: 100.0, longitude: 200.0),
+        ];
 
-        // Test southern and western coordinates
-        const southWestLocation = GeoLocation(
-          latitude: -33.8688,
-          longitude: -151.2093,
-        );
-        expect(southWestLocation.displayCoordinates, '-33.868800, -151.209300');
-
-        // Test zero coordinates
-        const zeroLocation = GeoLocation(latitude: 0.0, longitude: 0.0);
-        expect(zeroLocation.displayCoordinates, '0.000000, 0.000000');
-      });
-
-      test('should detect nearby locations using distance calculation', () {
-        // Create nearby location (approximately 100m from Berlin)
-        const nearbyBerlin = GeoLocation(latitude: 52.5210, longitude: 13.4060);
-
-        // Test if location is nearby using distance calculation
-        final distanceToNearby = berlinLocation.distanceTo(nearbyBerlin);
-        expect(distanceToNearby, lessThan(1.0)); // Less than 1 km
-
-        final distanceToParis = berlinLocation.distanceTo(parisLocation);
-        expect(distanceToParis, greaterThan(100)); // More than 100 km
-
-        final distanceToNewYork = berlinLocation.distanceTo(newYorkLocation);
-        expect(distanceToNewYork, greaterThan(1000)); // More than 1000 km
+        for (final location in invalidLocations) {
+          expect(
+            location.isValid,
+            false,
+            reason: 'Location $location should be invalid',
+          );
+        }
       });
     });
 
-    group('Edge Cases and Error Handling', () {
-      test('should handle very small coordinate differences', () {
-        const location1 = GeoLocation(
-          latitude: 52.520001,
-          longitude: 13.405001,
-        );
-        const location2 = GeoLocation(
-          latitude: 52.520002,
-          longitude: 13.405002,
-        );
-
-        final distance = location1.distanceTo(location2);
-        expect(distance, lessThan(0.01)); // Very small distance
+    group('displayCoordinates', () {
+      test('should format coordinates with 6 decimal places', () {
+        const geoLocation = GeoLocation(latitude: 52.5, longitude: 13.4);
+        expect(geoLocation.displayCoordinates, '52.500000, 13.400000');
       });
 
-      test('should handle antipodal points correctly', () {
-        const location1 = GeoLocation(latitude: 45.0, longitude: 0.0);
-        const location2 = GeoLocation(latitude: -45.0, longitude: 180.0);
-
-        final distance = location1.distanceTo(location2);
-        expect(distance, greaterThan(15000)); // Should be more than 15,000 km
-      });
-
-      test('should be immutable (freezed)', () {
-        const geoLocation = GeoLocation(latitude: 52.5200, longitude: 13.4050);
-
-        // Verify that the entity is properly frozen
-        expect(geoLocation, isA<GeoLocation>());
-        expect(geoLocation.toString(), contains('GeoLocation'));
-
-        // Test equality
-        const identicalLocation = GeoLocation(
-          latitude: 52.5200,
-          longitude: 13.4050,
-        );
-        expect(geoLocation, equals(identicalLocation));
-        expect(geoLocation.hashCode, equals(identicalLocation.hashCode));
-
-        // Test inequality
-        const differentLocation = GeoLocation(
-          latitude: 52.5201,
-          longitude: 13.4050,
-        );
-        expect(geoLocation, isNot(equals(differentLocation)));
-      });
-
-      test('should handle precision in display coordinates', () {
-        // Test very precise coordinates
-        const preciseLocation = GeoLocation(
+      test('should format coordinates with proper precision', () {
+        const geoLocation = GeoLocation(
           latitude: 52.123456789,
           longitude: 13.987654321,
         );
-        expect(preciseLocation.displayCoordinates, '52.123457, 13.987654');
-
-        // Test extreme precision
-        const extremePrecisionLocation = GeoLocation(
-          latitude: 0.000001,
-          longitude: 0.000001,
-        );
-        expect(
-          extremePrecisionLocation.displayCoordinates,
-          '0.000001, 0.000001',
-        );
+        expect(geoLocation.displayCoordinates, '52.123457, 13.987654');
       });
 
-      test('should validate coordinates at boundaries', () {
-        // Test exactly at boundaries
+      test('should format negative coordinates correctly', () {
+        const geoLocation = GeoLocation(
+          latitude: -33.8568,
+          longitude: -151.2153,
+        );
+        expect(geoLocation.displayCoordinates, '-33.856800, -151.215300');
+      });
+
+      test('should format zero coordinates correctly', () {
+        const geoLocation = GeoLocation(latitude: 0.0, longitude: 0.0);
+        expect(geoLocation.displayCoordinates, '0.000000, 0.000000');
+      });
+
+      test('should format boundary coordinates correctly', () {
+        const maxCoords = GeoLocation(latitude: 90.0, longitude: 180.0);
+        const minCoords = GeoLocation(latitude: -90.0, longitude: -180.0);
+
+        expect(maxCoords.displayCoordinates, '90.000000, 180.000000');
+        expect(minCoords.displayCoordinates, '-90.000000, -180.000000');
+      });
+    });
+
+    group('distanceTo', () {
+      test('should return zero distance for same location', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(latitude: 52.5, longitude: 13.4);
+
+        final distance = location1.distanceTo(location2);
+        expect(distance, closeTo(0.0, 0.001));
+      });
+
+      test('should calculate distance between Berlin and Paris correctly', () {
+        // Berlin: 52.5200° N, 13.4050° E
+        const berlin = GeoLocation(latitude: 52.5200, longitude: 13.4050);
+        // Paris: 48.8566° N, 2.3522° E
+        const paris = GeoLocation(latitude: 48.8566, longitude: 2.3522);
+
+        final distance = berlin.distanceTo(paris);
+        // Expected distance is approximately 878 km
+        expect(distance, closeTo(878, 5)); // Allow 5km tolerance
+      });
+
+      test(
+        'should calculate distance between New York and London correctly',
+        () {
+          // New York: 40.7128° N, 74.0060° W
+          const newYork = GeoLocation(latitude: 40.7128, longitude: -74.0060);
+          // London: 51.5074° N, 0.1278° W
+          const london = GeoLocation(latitude: 51.5074, longitude: -0.1278);
+
+          final distance = newYork.distanceTo(london);
+          // Expected distance is approximately 5585 km
+          expect(distance, closeTo(5585, 50)); // Allow 50km tolerance
+        },
+      );
+
+      test(
+        'should calculate distance between Sydney and Melbourne correctly',
+        () {
+          // Sydney: -33.8688° S, 151.2093° E
+          const sydney = GeoLocation(latitude: -33.8688, longitude: 151.2093);
+          // Melbourne: -37.8136° S, 144.9631° E
+          const melbourne = GeoLocation(
+            latitude: -37.8136,
+            longitude: 144.9631,
+          );
+
+          final distance = sydney.distanceTo(melbourne);
+          // Expected distance is approximately 714 km
+          expect(distance, closeTo(714, 10)); // Allow 10km tolerance
+        },
+      );
+
+      test('should be symmetric (distance A to B equals distance B to A)', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(latitude: 48.8, longitude: 2.3);
+
+        final distance1to2 = location1.distanceTo(location2);
+        final distance2to1 = location2.distanceTo(location1);
+
+        expect(distance1to2, closeTo(distance2to1, 0.001));
+      });
+
+      test('should handle locations across the date line', () {
+        // Location in Russia (east of 180°)
+        const eastLocation = GeoLocation(latitude: 55.0, longitude: 179.0);
+        // Location in Alaska (west of -180°)
+        const westLocation = GeoLocation(latitude: 55.0, longitude: -179.0);
+
+        final distance = eastLocation.distanceTo(westLocation);
+        // These locations are actually close (crossing the date line)
+        expect(distance, lessThan(500)); // Should be less than 500km
+      });
+
+      test('should handle polar coordinates', () {
         const northPole = GeoLocation(latitude: 90.0, longitude: 0.0);
         const southPole = GeoLocation(latitude: -90.0, longitude: 0.0);
-        const dateLine1 = GeoLocation(latitude: 0.0, longitude: 180.0);
-        const dateLine2 = GeoLocation(latitude: 0.0, longitude: -180.0);
 
-        expect(northPole.isValid, true);
-        expect(southPole.isValid, true);
-        expect(dateLine1.isValid, true);
-        expect(dateLine2.isValid, true);
+        final distance = northPole.distanceTo(southPole);
+        // Distance from north to south pole is approximately half Earth's circumference
+        expect(distance, closeTo(20015, 100)); // Allow 100km tolerance
+      });
 
-        // Test just outside boundaries
-        const beyondNorth = GeoLocation(latitude: 90.1, longitude: 0.0);
-        const beyondSouth = GeoLocation(latitude: -90.1, longitude: 0.0);
-        const beyondEast = GeoLocation(latitude: 0.0, longitude: 180.1);
-        const beyondWest = GeoLocation(latitude: 0.0, longitude: -180.1);
+      test('should handle equatorial coordinates', () {
+        const equator1 = GeoLocation(latitude: 0.0, longitude: 0.0);
+        const equator2 = GeoLocation(latitude: 0.0, longitude: 90.0);
 
-        expect(beyondNorth.isValid, false);
-        expect(beyondSouth.isValid, false);
-        expect(beyondEast.isValid, false);
-        expect(beyondWest.isValid, false);
+        final distance = equator1.distanceTo(equator2);
+        // Quarter of Earth's circumference at equator
+        expect(distance, closeTo(10007, 50)); // Allow 50km tolerance
+      });
+    });
+
+    group('edge cases and precision', () {
+      test('should handle very small coordinate differences', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(
+          latitude: 52.5000001,
+          longitude: 13.4000001,
+        );
+
+        final distance = location1.distanceTo(location2);
+        expect(distance, lessThan(1.0)); // Should be less than 1km
+      });
+
+      test('should handle maximum coordinate values', () {
+        const maxLat = GeoLocation(latitude: 90.0, longitude: 180.0);
+        const minLat = GeoLocation(latitude: -90.0, longitude: -180.0);
+
+        expect(() => maxLat.distanceTo(minLat), returnsNormally);
+        expect(maxLat.isValid, true);
+        expect(minLat.isValid, true);
+      });
+
+      test('should maintain precision in calculations', () {
+        const highPrecisionLocation = GeoLocation(
+          latitude: 52.123456789123456,
+          longitude: 13.987654321987654,
+        );
+
+        expect(highPrecisionLocation.latitude, 52.123456789123456);
+        expect(highPrecisionLocation.longitude, 13.987654321987654);
+        expect(highPrecisionLocation.isValid, true);
+      });
+    });
+
+    group('equality and copying', () {
+      test('should be equal when coordinates are the same', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(latitude: 52.5, longitude: 13.4);
+
+        expect(location1, equals(location2));
+        expect(location1.hashCode, equals(location2.hashCode));
+      });
+
+      test('should not be equal when coordinates differ', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(latitude: 52.6, longitude: 13.4);
+        const location3 = GeoLocation(latitude: 52.5, longitude: 13.5);
+
+        expect(location1, isNot(equals(location2)));
+        expect(location1, isNot(equals(location3)));
+      });
+
+      test('should handle precision differences in equality', () {
+        const location1 = GeoLocation(latitude: 52.5, longitude: 13.4);
+        const location2 = GeoLocation(
+          latitude: 52.50000000001,
+          longitude: 13.4,
+        );
+
+        // These should be different due to precision
+        expect(location1, isNot(equals(location2)));
+      });
+    });
+
+    group('toString representation', () {
+      test('should have meaningful string representation', () {
+        const location = GeoLocation(latitude: 52.5, longitude: 13.4);
+        final stringRep = location.toString();
+
+        expect(stringRep, contains('52.5'));
+        expect(stringRep, contains('13.4'));
       });
     });
   });

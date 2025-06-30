@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov.info - Users/muhammadasifjawed/Desktop/Projects/Camper-Blis/lib/core/utils/coordinate_utils.dart</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory /Users/muhammadasifjawed/Desktop/Projects/Camper-Blis/lib/core/utils">/Users/muhammadasifjawed/Desktop/Projects/Camper-Blis/lib/core/utils</a> - coordinate_utils.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">0.0&nbsp;%</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-06-30 09:21:07</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'dart:math' as math;</span>
+<span id="L2"><span class="lineNum">       2</span>              : import '../config/app_config.dart';</span>
+<span id="L3"><span class="lineNum">       3</span>              : import '../../features/campsites/domain/entities/geo_location.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : </span>
+<span id="L5"><span class="lineNum">       5</span>              : /// Coordinate utility functions for geographic operations</span>
+<span id="L6"><span class="lineNum">       6</span>              : class CoordinateUtils {</span>
+<span id="L7"><span class="lineNum">       7</span>              :   /// List of 50 hardcoded European camping coordinates</span>
+<span id="L8"><span class="lineNum">       8</span>              :   /// These will replace the incorrect coordinates from the API</span>
+<span id="L9"><span class="lineNum">       9</span>              :   static const List&lt;Map&lt;String, double&gt;&gt; _hardcodedCampingCoordinates = [</span>
+<span id="L10"><span class="lineNum">      10</span>              :     // Germany</span>
+<span id="L11"><span class="lineNum">      11</span>              :     {'latitude': 47.5596, 'longitude': 7.5886}, // Black Forest, Germany</span>
+<span id="L12"><span class="lineNum">      12</span>              :     {'latitude': 51.4347, 'longitude': 12.2433}, // Near Leipzig, Germany</span>
+<span id="L13"><span class="lineNum">      13</span>              :     {'latitude': 49.4521, 'longitude': 11.0767}, // Nuremberg area, Germany</span>
+<span id="L14"><span class="lineNum">      14</span>              :     {'latitude': 53.5511, 'longitude': 9.9937}, // Hamburg area, Germany</span>
+<span id="L15"><span class="lineNum">      15</span>              :     {'latitude': 50.1109, 'longitude': 8.6821}, // Frankfurt area, Germany</span>
+<span id="L16"><span class="lineNum">      16</span>              :     // France</span>
+<span id="L17"><span class="lineNum">      17</span>              :     {'latitude': 43.6047, 'longitude': 1.4442}, // Near Toulouse, France</span>
+<span id="L18"><span class="lineNum">      18</span>              :     {'latitude': 45.7640, 'longitude': 4.8357}, // Lyon area, France</span>
+<span id="L19"><span class="lineNum">      19</span>              :     {'latitude': 47.2184, 'longitude': -1.5536}, // Nantes area, France</span>
+<span id="L20"><span class="lineNum">      20</span>              :     {'latitude': 49.4944, 'longitude': 0.1079}, // Le Havre area, France</span>
+<span id="L21"><span class="lineNum">      21</span>              :     {'latitude': 44.8378, 'longitude': -0.5792}, // Bordeaux area, France</span>
+<span id="L22"><span class="lineNum">      22</span>              :     // Switzerland</span>
+<span id="L23"><span class="lineNum">      23</span>              :     {'latitude': 46.9481, 'longitude': 7.4474}, // Bern area, Switzerland</span>
+<span id="L24"><span class="lineNum">      24</span>              :     {'latitude': 46.5197, 'longitude': 6.6323}, // Lausanne area, Switzerland</span>
+<span id="L25"><span class="lineNum">      25</span>              :     {'latitude': 47.3769, 'longitude': 8.5417}, // Zurich area, Switzerland</span>
+<span id="L26"><span class="lineNum">      26</span>              :     {'latitude': 46.0037, 'longitude': 8.9511}, // Lugano area, Switzerland</span>
+<span id="L27"><span class="lineNum">      27</span>              :     {'latitude': 46.8182, 'longitude': 8.2275}, // Central Switzerland</span>
+<span id="L28"><span class="lineNum">      28</span>              :     // Austria</span>
+<span id="L29"><span class="lineNum">      29</span>              :     {'latitude': 47.2692, 'longitude': 11.4041}, // Innsbruck area, Austria</span>
+<span id="L30"><span class="lineNum">      30</span>              :     {'latitude': 47.8095, 'longitude': 13.0550}, // Salzburg area, Austria</span>
+<span id="L31"><span class="lineNum">      31</span>              :     {'latitude': 48.2082, 'longitude': 16.3738}, // Vienna area, Austria</span>
+<span id="L32"><span class="lineNum">      32</span>              :     {'latitude': 47.0707, 'longitude': 15.4395}, // Graz area, Austria</span>
+<span id="L33"><span class="lineNum">      33</span>              :     {'latitude': 47.6634, 'longitude': 13.5152}, // Lake region, Austria</span>
+<span id="L34"><span class="lineNum">      34</span>              :     // Italy (Northern)</span>
+<span id="L35"><span class="lineNum">      35</span>              :     {'latitude': 45.4642, 'longitude': 9.1900}, // Milan area, Italy</span>
+<span id="L36"><span class="lineNum">      36</span>              :     {'latitude': 45.0703, 'longitude': 7.6869}, // Turin area, Italy</span>
+<span id="L37"><span class="lineNum">      37</span>              :     {'latitude': 45.4408, 'longitude': 12.3155}, // Venice area, Italy</span>
+<span id="L38"><span class="lineNum">      38</span>              :     {'latitude': 44.4949, 'longitude': 11.3426}, // Bologna area, Italy</span>
+<span id="L39"><span class="lineNum">      39</span>              :     {'latitude': 45.8131, 'longitude': 8.7750}, // Lake Como area, Italy</span>
+<span id="L40"><span class="lineNum">      40</span>              :     // Spain</span>
+<span id="L41"><span class="lineNum">      41</span>              :     {'latitude': 43.2630, 'longitude': -2.9350}, // Bilbao area, Spain</span>
+<span id="L42"><span class="lineNum">      42</span>              :     {'latitude': 41.3851, 'longitude': 2.1734}, // Barcelona area, Spain</span>
+<span id="L43"><span class="lineNum">      43</span>              :     {'latitude': 39.4699, 'longitude': -0.3763}, // Valencia area, Spain</span>
+<span id="L44"><span class="lineNum">      44</span>              :     {'latitude': 37.3886, 'longitude': -5.9823}, // Seville area, Spain</span>
+<span id="L45"><span class="lineNum">      45</span>              :     {'latitude': 40.4168, 'longitude': -3.7038}, // Madrid area, Spain</span>
+<span id="L46"><span class="lineNum">      46</span>              :     // Netherlands</span>
+<span id="L47"><span class="lineNum">      47</span>              :     {'latitude': 52.3676, 'longitude': 4.9041}, // Amsterdam area, Netherlands</span>
+<span id="L48"><span class="lineNum">      48</span>              :     {'latitude': 51.9225, 'longitude': 4.4792}, // Rotterdam area, Netherlands</span>
+<span id="L49"><span class="lineNum">      49</span>              :     {'latitude': 52.2130, 'longitude': 5.2794}, // Utrecht area, Netherlands</span>
+<span id="L50"><span class="lineNum">      50</span>              :     {'latitude': 53.2194, 'longitude': 6.5665}, // Groningen area, Netherlands</span>
+<span id="L51"><span class="lineNum">      51</span>              :     {'latitude': 51.5719, 'longitude': 5.0913}, // Eindhoven area, Netherlands</span>
+<span id="L52"><span class="lineNum">      52</span>              :     // Belgium</span>
+<span id="L53"><span class="lineNum">      53</span>              :     {'latitude': 50.8503, 'longitude': 4.3517}, // Brussels area, Belgium</span>
+<span id="L54"><span class="lineNum">      54</span>              :     {'latitude': 51.2093, 'longitude': 3.2247}, // Bruges area, Belgium</span>
+<span id="L55"><span class="lineNum">      55</span>              :     {'latitude': 51.2194, 'longitude': 4.4025}, // Antwerp area, Belgium</span>
+<span id="L56"><span class="lineNum">      56</span>              :     {'latitude': 50.4501, 'longitude': 3.9517}, // Namur area, Belgium</span>
+<span id="L57"><span class="lineNum">      57</span>              :     {'latitude': 50.6292, 'longitude': 5.5797}, // Liege area, Belgium</span>
+<span id="L58"><span class="lineNum">      58</span>              :     // Czech Republic</span>
+<span id="L59"><span class="lineNum">      59</span>              :     {'latitude': 50.0755, 'longitude': 14.4378}, // Prague area, Czech Republic</span>
+<span id="L60"><span class="lineNum">      60</span>              :     {'latitude': 49.1951, 'longitude': 16.6068}, // Brno area, Czech Republic</span>
+<span id="L61"><span class="lineNum">      61</span>              :     {'latitude': 49.7384, 'longitude': 13.3736}, // Plzen area, Czech Republic</span>
+<span id="L62"><span class="lineNum">      62</span>              :     {'latitude': 50.7663, 'longitude': 15.0543}, // Liberec area, Czech Republic</span>
+<span id="L63"><span class="lineNum">      63</span>              :     {'latitude': 49.5955, 'longitude': 17.2517}, // Olomouc area, Czech Republic</span>
+<span id="L64"><span class="lineNum">      64</span>              :     // Poland</span>
+<span id="L65"><span class="lineNum">      65</span>              :     {'latitude': 52.2297, 'longitude': 21.0122}, // Warsaw area, Poland</span>
+<span id="L66"><span class="lineNum">      66</span>              :     {'latitude': 50.0647, 'longitude': 19.9450}, // Krakow area, Poland</span>
+<span id="L67"><span class="lineNum">      67</span>              :     {'latitude': 54.3520, 'longitude': 18.6466}, // Gdansk area, Poland</span>
+<span id="L68"><span class="lineNum">      68</span>              :     {'latitude': 51.7592, 'longitude': 19.4560}, // Lodz area, Poland</span>
+<span id="L69"><span class="lineNum">      69</span>              :     {'latitude': 51.1079, 'longitude': 17.0385}, // Wroclaw area, Poland</span>
+<span id="L70"><span class="lineNum">      70</span>              :     // Slovenia</span>
+<span id="L71"><span class="lineNum">      71</span>              :     {'latitude': 46.0569, 'longitude': 14.5058}, // Ljubljana area, Slovenia</span>
+<span id="L72"><span class="lineNum">      72</span>              :     {'latitude': 46.3595, 'longitude': 15.1113}, // Celje area, Slovenia</span>
+<span id="L73"><span class="lineNum">      73</span>              :     {'latitude': 45.5550, 'longitude': 13.7301}, // Koper area, Slovenia</span>
+<span id="L74"><span class="lineNum">      74</span>              :     {'latitude': 46.2396, 'longitude': 14.3559}, // Kranj area, Slovenia</span>
+<span id="L75"><span class="lineNum">      75</span>              :     {'latitude': 45.9432, 'longitude': 15.2675}, // Novo Mesto area, Slovenia</span>
+<span id="L76"><span class="lineNum">      76</span>              :   ];</span>
+<span id="L77"><span class="lineNum">      77</span>              : </span>
+<span id="L78"><span class="lineNum">      78</span>              :   /// Get hardcoded coordinates for a campsite based on its ID</span>
+<span id="L79"><span class="lineNum">      79</span>              :   /// This ensures consistent coordinate assignment for each campsite</span>
+<span id="L80"><span class="lineNum">      80</span> <span class="tlaUNC">           0 :   static Map&lt;String, double&gt; getHardcodedCoordinatesForCampsite(</span></span>
+<span id="L81"><span class="lineNum">      81</span>              :     String campsiteId,</span>
+<span id="L82"><span class="lineNum">      82</span>              :   ) {</span>
+<span id="L83"><span class="lineNum">      83</span>              :     // Create a hash of the campsite ID to get a consistent index</span>
+<span id="L84"><span class="lineNum">      84</span> <span class="tlaUNC">           0 :     int hash = campsiteId.hashCode;</span></span>
+<span id="L85"><span class="lineNum">      85</span>              : </span>
+<span id="L86"><span class="lineNum">      86</span>              :     // Ensure positive index and map to coordinate list length</span>
+<span id="L87"><span class="lineNum">      87</span> <span class="tlaUNC">           0 :     int index = hash.abs() % _hardcodedCampingCoordinates.length;</span></span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span> <span class="tlaUNC">           0 :     return _hardcodedCampingCoordinates[index];</span></span>
+<span id="L90"><span class="lineNum">      90</span>              :   }</span>
+<span id="L91"><span class="lineNum">      91</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:camper_blis/features/campsites/presentation/controllers/filter_controller.dart",
+    "package:camper_blis/features/campsites/presentation/controllers/campsite_controller.dart",
+    "package:camper_blis/shared/theme/text_styles.dart",
+    "package:camper_blis/shared/theme/colors.dart"
+  ]
+}

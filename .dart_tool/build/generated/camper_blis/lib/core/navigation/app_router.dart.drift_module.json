@@ -1,0 +1,12 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:go_router/go_router.dart",
+    "package:camper_blis/features/campsites/presentation/pages/campsite_detail_page.dart",
+    "package:camper_blis/features/campsites/presentation/pages/campsite_list_page.dart",
+    "package:camper_blis/features/campsites/presentation/pages/campsite_list_page_refactored.dart",
+    "package:camper_blis/features/campsites/presentation/pages/campsite_map_page.dart",
+    "package:camper_blis/core/layout/main_navigation_shell.dart"
+  ]
+}

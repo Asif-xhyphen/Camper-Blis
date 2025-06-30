@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drift/drift.dart';
 
@@ -9,8 +10,10 @@ import 'shared/constants/strings.dart';
 import 'shared/theme/app_theme.dart';
 import 'core/utils/logger.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
 
   // Configure drift to suppress multiple database warnings in debug mode
   // This is safe since we're using keepAlive: true for the database provider

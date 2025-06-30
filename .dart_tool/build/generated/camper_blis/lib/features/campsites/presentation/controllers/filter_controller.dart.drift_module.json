@@ -1,0 +1,8 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:riverpod_annotation/riverpod_annotation.dart",
+    "package:camper_blis/features/campsites/domain/entities/filter_criteria.dart"
+  ]
+}

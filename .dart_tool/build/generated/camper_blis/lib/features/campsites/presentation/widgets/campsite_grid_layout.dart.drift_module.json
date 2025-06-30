@@ -1,0 +1,11 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:camper_blis/features/campsites/presentation/widgets/campsite_card_unified.dart",
+    "package:camper_blis/shared/widgets/responsive_layout.dart",
+    "package:camper_blis/shared/widgets/loading_widget.dart",
+    "package:camper_blis/shared/widgets/error_widget.dart"
+  ]
+}

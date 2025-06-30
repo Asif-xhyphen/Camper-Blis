@@ -1,0 +1,6 @@
+{
+  "elements": {},
+  "imports": [
+    "package:dartz/dartz.dart"
+  ]
+}

@@ -129,7 +129,8 @@ class __$$GeoLocationModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$GeoLocationModelImpl extends _GeoLocationModel {
   const _$GeoLocationModelImpl({
     @JsonKey(name: 'lat') required this.latitude,

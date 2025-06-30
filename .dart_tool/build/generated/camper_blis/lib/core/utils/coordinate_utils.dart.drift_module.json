@@ -1,0 +1,7 @@
+{
+  "elements": {},
+  "imports": [
+    "package:camper_blis/core/config/app_config.dart",
+    "package:camper_blis/features/campsites/domain/entities/geo_location.dart"
+  ]
+}

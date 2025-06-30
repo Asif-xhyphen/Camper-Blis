@@ -1,0 +1,13 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:drift/drift.dart",
+    "package:camper_blis/core/config/environment.dart",
+    "package:camper_blis/core/navigation/app_router.dart",
+    "package:camper_blis/shared/constants/strings.dart",
+    "package:camper_blis/shared/theme/app_theme.dart",
+    "package:camper_blis/core/utils/logger.dart"
+  ]
+}

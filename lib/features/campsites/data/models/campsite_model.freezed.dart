@@ -270,7 +270,8 @@ class __$$CampsiteModelImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _$CampsiteModelImpl extends _CampsiteModel {
   const _$CampsiteModelImpl({
     required this.id,

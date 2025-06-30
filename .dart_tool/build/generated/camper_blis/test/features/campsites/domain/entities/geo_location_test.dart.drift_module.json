@@ -1,0 +1,7 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_test/flutter_test.dart",
+    "package:camper_blis/features/campsites/domain/entities/geo_location.dart"
+  ]
+}

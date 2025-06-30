@@ -1,0 +1,10 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:camper_blis/shared/theme/colors.dart",
+    "package:camper_blis/shared/theme/text_styles.dart",
+    "package:camper_blis/shared/constants/dimensions.dart",
+    "package:camper_blis/shared/constants/strings.dart"
+  ]
+}

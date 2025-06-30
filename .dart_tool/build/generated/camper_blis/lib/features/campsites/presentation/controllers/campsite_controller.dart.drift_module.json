@@ -1,0 +1,14 @@
+{
+  "elements": {},
+  "imports": [
+    "package:freezed_annotation/freezed_annotation.dart",
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:camper_blis/features/campsites/domain/entities/campsite.dart",
+    "package:camper_blis/features/campsites/domain/entities/filter_criteria.dart",
+    "package:camper_blis/features/campsites/domain/entities/geo_location.dart",
+    "package:camper_blis/features/campsites/domain/usecases/get_campsites.dart",
+    "package:camper_blis/features/campsites/domain/usecases/filter_campsites.dart",
+    "package:camper_blis/core/providers/providers.dart",
+    "package:camper_blis/features/campsites/presentation/controllers/filter_controller.dart"
+  ]
+}

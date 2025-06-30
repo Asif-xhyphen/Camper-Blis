@@ -38,6 +38,12 @@ class GetCampsites {
   /// Force refresh campsites from remote API
   /// Bypasses cache and fetches fresh data
   Future<Either<Failure, List<Campsite>>> refresh() async {
-    return await _repository.refreshCampsites();
+    try {
+      return await _repository.refreshCampsites();
+    } catch (e) {
+      return Left(
+        GeneralFailure('Failed to refresh campsites: ${e.toString()}'),
+      );
+    }
   }
 }

@@ -7,6 +7,7 @@ part 'geo_location_model.g.dart';
 /// Data model for GeoLocation with JSON serialization
 @freezed
 class GeoLocationModel with _$GeoLocationModel {
+  @JsonSerializable(explicitToJson: true)
   const factory GeoLocationModel({
     @JsonKey(name: 'lat') required double latitude,
     @JsonKey(name: 'long') required double longitude,

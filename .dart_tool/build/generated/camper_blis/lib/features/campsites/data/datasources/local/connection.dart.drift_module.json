@@ -1,0 +1,6 @@
+{
+  "elements": {},
+  "imports": [
+    "package:camper_blis/features/campsites/data/datasources/local/unsupported.dart"
+  ]
+}

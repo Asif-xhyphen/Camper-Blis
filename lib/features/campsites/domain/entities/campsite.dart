@@ -32,7 +32,7 @@ class Campsite with _$Campsite {
   }
 
   bool matchesSearchTerm(String searchTerm) {
-    final String lowerSearch = searchTerm.toLowerCase();
+    final String lowerSearch = searchTerm.trim().toLowerCase();
     return label.toLowerCase().contains(lowerSearch) ||
         hostLanguages.any((lang) => lang.toLowerCase().contains(lowerSearch));
   }

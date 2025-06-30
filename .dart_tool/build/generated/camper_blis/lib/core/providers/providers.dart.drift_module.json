@@ -1,0 +1,15 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_riverpod/flutter_riverpod.dart",
+    "package:camper_blis/core/network/dio_client.dart",
+    "package:camper_blis/features/campsites/data/datasources/remote/campsite_remote_datasource.dart",
+    "package:camper_blis/features/campsites/data/datasources/local/campsite_local_datasource.dart",
+    "package:camper_blis/features/campsites/data/datasources/local/database.dart",
+    "package:camper_blis/features/campsites/data/repositories/campsite_repository_impl.dart",
+    "package:camper_blis/features/campsites/domain/repositories/campsite_repository.dart",
+    "package:camper_blis/features/campsites/domain/usecases/get_campsites.dart",
+    "package:camper_blis/features/campsites/domain/usecases/get_campsite_details.dart",
+    "package:camper_blis/features/campsites/domain/usecases/filter_campsites.dart"
+  ]
+}

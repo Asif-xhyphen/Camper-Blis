@@ -9,6 +9,7 @@ part 'campsite_model.g.dart';
 /// Data model for Campsite with JSON serialization
 @freezed
 class CampsiteModel with _$CampsiteModel {
+  @JsonSerializable(explicitToJson: true)
   const factory CampsiteModel({
     required String id,
     required String label,

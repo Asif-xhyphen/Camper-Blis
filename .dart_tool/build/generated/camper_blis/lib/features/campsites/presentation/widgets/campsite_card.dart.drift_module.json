@@ -1,0 +1,15 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter/material.dart",
+    "package:cached_network_image/cached_network_image.dart",
+    "package:camper_blis/features/campsites/domain/entities/campsite.dart",
+    "package:camper_blis/shared/widgets/cached_image_widget.dart",
+    "package:camper_blis/shared/theme/colors.dart",
+    "package:camper_blis/shared/constants/dimensions.dart",
+    "package:camper_blis/shared/theme/text_styles.dart",
+    "package:camper_blis/shared/widgets/loading_widget.dart",
+    "package:camper_blis/shared/widgets/responsive_layout.dart",
+    "package:flutter/foundation.dart"
+  ]
+}

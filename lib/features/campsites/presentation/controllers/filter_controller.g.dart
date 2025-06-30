@@ -8,9 +8,7 @@ part of 'filter_controller.dart';
 
 String _$hasActiveFiltersHash() => r'29855529495367f32c4e5ab91cc73b6f3aafb1ad';
 
-/// Provider for checking if filters are active
-///
-/// Copied from [hasActiveFilters].
+/// See also [hasActiveFilters].
 @ProviderFor(hasActiveFilters)
 final hasActiveFiltersProvider = AutoDisposeProvider<bool>.internal(
   hasActiveFilters,
@@ -28,9 +26,7 @@ final hasActiveFiltersProvider = AutoDisposeProvider<bool>.internal(
 typedef HasActiveFiltersRef = AutoDisposeProviderRef<bool>;
 String _$activeFilterCountHash() => r'b9b244ba36f6339c7362003fab9fbdebc26e9b0a';
 
-/// Provider for active filter count
-///
-/// Copied from [activeFilterCount].
+/// See also [activeFilterCount].
 @ProviderFor(activeFilterCount)
 final activeFilterCountProvider = AutoDisposeProvider<int>.internal(
   activeFilterCount,
@@ -49,9 +45,7 @@ typedef ActiveFilterCountRef = AutoDisposeProviderRef<int>;
 String _$availableCountriesHash() =>
     r'79ab84238c3ef77ddbee941dedacdd8e0ae1c0f9';
 
-/// Provider for available countries
-///
-/// Copied from [availableCountries].
+/// See also [availableCountries].
 @ProviderFor(availableCountries)
 final availableCountriesProvider = AutoDisposeProvider<List<String>>.internal(
   availableCountries,
@@ -70,9 +64,7 @@ typedef AvailableCountriesRef = AutoDisposeProviderRef<List<String>>;
 String _$availableLanguagesHash() =>
     r'685344e6f32676963d2633ba326025abed9400ee';
 
-/// Provider for available languages
-///
-/// Copied from [availableLanguages].
+/// See also [availableLanguages].
 @ProviderFor(availableLanguages)
 final availableLanguagesProvider = AutoDisposeProvider<List<String>>.internal(
   availableLanguages,
@@ -91,9 +83,7 @@ typedef AvailableLanguagesRef = AutoDisposeProviderRef<List<String>>;
 String _$languageDisplayNamesHash() =>
     r'8122dee8a2d8a20fee62ac68d14c46997b2dfec8';
 
-/// Provider for language display names
-///
-/// Copied from [languageDisplayNames].
+/// See also [languageDisplayNames].
 @ProviderFor(languageDisplayNames)
 final languageDisplayNamesProvider =
     AutoDisposeProvider<Map<String, String>>.internal(
@@ -112,9 +102,7 @@ final languageDisplayNamesProvider =
 typedef LanguageDisplayNamesRef = AutoDisposeProviderRef<Map<String, String>>;
 String _$priceRangeBoundsHash() => r'f20d2f0d38a80144645fb4042cd155dcb5cdc496';
 
-/// Provider for price range bounds
-///
-/// Copied from [priceRangeBounds].
+/// See also [priceRangeBounds].
 @ProviderFor(priceRangeBounds)
 final priceRangeBoundsProvider =
     AutoDisposeProvider<({double min, double max})>.internal(

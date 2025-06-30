@@ -1,0 +1,15 @@
+{
+  "elements": {},
+  "imports": [
+    "package:flutter_test/flutter_test.dart",
+    "package:mockito/mockito.dart",
+    "package:mockito/annotations.dart",
+    "package:dartz/dartz.dart",
+    "package:camper_blis/core/error/failures.dart",
+    "package:camper_blis/features/campsites/domain/entities/campsite.dart",
+    "package:camper_blis/features/campsites/domain/entities/geo_location.dart",
+    "package:camper_blis/features/campsites/domain/repositories/campsite_repository.dart",
+    "package:camper_blis/features/campsites/domain/usecases/get_campsite_details.dart",
+    "asset:camper_blis/test/features/campsites/domain/usecases/get_campsite_details_test.mocks.dart"
+  ]
+}

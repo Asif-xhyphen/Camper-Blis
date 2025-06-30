@@ -1,0 +1,12 @@
+{
+  "elements": {},
+  "imports": [
+    "package:drift/drift.dart",
+    "package:drift/native.dart",
+    "package:drift_dev/api/migrations_native.dart",
+    "package:flutter/foundation.dart",
+    "package:path_provider/path_provider.dart",
+    "package:path/path.dart",
+    "package:camper_blis/core/config/app_config.dart"
+  ]
+}
