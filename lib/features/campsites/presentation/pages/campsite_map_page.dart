@@ -177,11 +177,11 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
                 child: Column(
                   children: [
                     _buildSearchOverlay(),
-                    _buildFilterChips(
-                      context,
-                      hasActiveFilters,
-                      activeFilterCount,
-                    ),
+                    // _buildFilterChips(
+                    //   context,
+                    //   hasActiveFilters,
+                    //   activeFilterCount,
+                    // ),
                     if (ResponsiveLayout.isDesktop(context))
                       const WebFilterBar(),
                   ],
@@ -552,47 +552,47 @@ class _CampsiteMapPageState extends ConsumerState<CampsiteMapPage>
     );
   }
 
-  Widget _buildFilterChips(
-    BuildContext context,
-    bool hasActiveFilters,
-    int activeFilterCount,
-  ) {
-    return Container(
-      margin: const EdgeInsets.only(
-        left: Dimensions.paddingM,
-        right: Dimensions.paddingM,
-        bottom: Dimensions.spaceS,
-      ),
-      child: Wrap(
-        spacing: Dimensions.spaceS,
-        children: [
-          FilterChipButton(
-            icon: Icons.calendar_today,
-            label: 'Dates',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Date picker coming soon!')),
-              );
-            },
-          ),
-          FilterChipButton(
-            icon: Icons.people,
-            label: 'Guests',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Guest picker coming soon!')),
-              );
-            },
-          ),
-          FilterChipButton(
-            icon: Icons.tune,
-            label:
-                hasActiveFilters ? 'Filters ($activeFilterCount)' : 'Filters',
-            isActive: hasActiveFilters,
-            onTap: () => showFilterBottomSheet(context),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildFilterChips(
+  //   BuildContext context,
+  //   bool hasActiveFilters,
+  //   int activeFilterCount,
+  // ) {
+  //   return Container(
+  //     margin: const EdgeInsets.only(
+  //       left: Dimensions.paddingM,
+  //       right: Dimensions.paddingM,
+  //       bottom: Dimensions.spaceS,
+  //     ),
+  //     child: Wrap(
+  //       spacing: Dimensions.spaceS,
+  //       children: [
+  //         FilterChipButton(
+  //           icon: Icons.calendar_today,
+  //           label: 'Dates',
+  //           onTap: () {
+  //             ScaffoldMessenger.of(context).showSnackBar(
+  //               const SnackBar(content: Text('Date picker coming soon!')),
+  //             );
+  //           },
+  //         ),
+  //         FilterChipButton(
+  //           icon: Icons.people,
+  //           label: 'Guests',
+  //           onTap: () {
+  //             ScaffoldMessenger.of(context).showSnackBar(
+  //               const SnackBar(content: Text('Guest picker coming soon!')),
+  //             );
+  //           },
+  //         ),
+  //         FilterChipButton(
+  //           icon: Icons.tune,
+  //           label:
+  //               hasActiveFilters ? 'Filters ($activeFilterCount)' : 'Filters',
+  //           isActive: hasActiveFilters,
+  //           onTap: () => showFilterBottomSheet(context),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

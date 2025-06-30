@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/campsites/presentation/pages/campsite_detail_page.dart';
 import '../../features/campsites/presentation/pages/campsite_list_page.dart';
+import '../../features/campsites/presentation/pages/campsite_list_page_refactored.dart';
 import '../../features/campsites/presentation/pages/campsite_map_page.dart';
 import '../layout/main_navigation_shell.dart';
 

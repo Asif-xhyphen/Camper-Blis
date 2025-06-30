@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:camper_blis/features/campsites/domain/entities/campsite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,10 @@ import '../../../../shared/theme/text_styles.dart';
 import '../controllers/campsite_controller.dart';
 import '../controllers/filter_controller.dart';
 import '../widgets/campsite_card.dart';
+import '../widgets/campsite_card_unified.dart';
+import '../widgets/campsite_filter_components.dart';
+import '../widgets/campsite_grid_layout.dart';
+import '../widgets/campsite_header.dart';
 import '../widgets/filter_bottom_sheet.dart';
 import '../widgets/web_filter_bar.dart';
 import '../../../../shared/widgets/loading_widget.dart';
@@ -21,422 +27,436 @@ class CampsiteListPage extends ConsumerStatefulWidget {
   ConsumerState<CampsiteListPage> createState() => _CampsiteListPageState();
 }
 
-class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
-    with TickerProviderStateMixin {
+class _CampsiteListPageState extends ConsumerState<CampsiteListPage> {
   final TextEditingController _searchController = TextEditingController();
-  final FocusNode _searchFocusNode = FocusNode();
   String _searchQuery = '';
-
-  late AnimationController _animationController;
-  late AnimationController _typingAnimationController;
-  late Animation<double> _scaleAnimation;
-  late Animation<Color?> _borderAnimation;
-  late Animation<double> _shadowAnimation;
-  late Animation<double> _typingAnimation;
-
-  bool _isSearchFocused = false;
-  bool _isTyping = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Initialize animations
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
-    );
-
-    _typingAnimationController = AnimationController(
-      duration: const Duration(milliseconds: 800),
-      vsync: this,
-    );
-
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 1.02).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-
-    _borderAnimation = ColorTween(
-      begin: AppColors.border,
-      end: AppColors.primaryGreen,
-    ).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-
-    _shadowAnimation = Tween<double>(begin: 8.0, end: 16.0).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
-
-    _typingAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _typingAnimationController,
-        curve: Curves.easeInOut,
-      ),
-    );
-
-    // Listen to focus changes
-    _searchFocusNode.addListener(() {
-      setState(() {
-        _isSearchFocused = _searchFocusNode.hasFocus;
-      });
-
-      if (_isSearchFocused) {
-        _animationController.forward();
-      } else {
-        _animationController.reverse();
-      }
-    });
-  }
 
   @override
   void dispose() {
     _searchController.dispose();
-    _searchFocusNode.dispose();
-    _animationController.dispose();
-    _typingAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
     final campsiteState = ref.watch(campsiteControllerProvider);
-    final hasActiveFilters = ref.watch(hasActiveFiltersProvider);
-    final activeFilterCount = ref.watch(activeFilterCountProvider);
 
+    return ResponsiveLayout(
+      mobile: _buildMobileLayout(campsiteState),
+      desktop: _buildWebLayout(campsiteState),
+    );
+  }
+
+  // Event Handlers
+  void _handleSearchChanged(String value) {
+    setState(() {
+      _searchQuery = value;
+    });
+  }
+
+  void _handleSearchClear() {
+    _searchController.clear();
+    setState(() {
+      _searchQuery = '';
+    });
+  }
+
+  Widget _buildMobileLayout(campsiteState) {
     return Scaffold(
       backgroundColor: AppColors.backgroundWhite,
-      appBar: AppBar(
-        title: Text(Strings.appName),
-        foregroundColor: AppColors.surfaceWhite,
-        elevation: 0,
-      ),
-      body: GestureDetector(
-        onTap: () {
-          _searchFocusNode.unfocus();
-        },
-        child: ResponsiveConstraints(
-          child: Column(
-            children: [
-              _buildSearchOverlay(),
-              _buildFilterChips(context, hasActiveFilters, activeFilterCount),
-              if (ResponsiveLayout.isDesktop(context)) const WebFilterBar(),
-              Expanded(child: _buildCampsiteList(campsiteState, _searchQuery)),
-            ],
+      body: CustomScrollView(
+        slivers: [
+          CampsiteHeader(
+            searchController: _searchController,
+            searchQuery: _searchQuery,
+            onSearchChanged: _handleSearchChanged,
+            onSearchClear: _handleSearchClear,
           ),
-        ),
-      ),
-      floatingActionButton:
-          ResponsiveLayout.isMobile(context) ||
-                  ResponsiveLayout.isTablet(context)
-              ? FloatingActionButton.extended(
-                onPressed: () => showFilterBottomSheet(context),
-                icon: Icon(
-                  Icons.filter_list,
-                  color:
-                      hasActiveFilters
-                          ? AppColors.primaryGreen
-                          : AppColors.surfaceWhite,
-                ),
-                label: Text(
-                  hasActiveFilters ? 'Filters ($activeFilterCount)' : 'Filter',
-                  style: TextStyle(
-                    color:
-                        hasActiveFilters
-                            ? AppColors.primaryGreen
-                            : AppColors.surfaceWhite,
-                  ),
-                ),
-                backgroundColor:
-                    hasActiveFilters
-                        ? AppColors.surfaceWhite
-                        : AppColors.primaryGreen,
-              )
-              : null,
-    );
-  }
-
-  Widget _buildSearchOverlay() {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
-        return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: Container(
-            margin: const EdgeInsets.all(Dimensions.paddingM),
-            padding: const EdgeInsets.symmetric(
-              horizontal: Dimensions.paddingM,
-              vertical: Dimensions.paddingS,
-            ),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceWhite,
-              borderRadius: BorderRadius.circular(Dimensions.radiusL),
-              border: Border.all(
-                color: _borderAnimation.value ?? AppColors.border,
-                width: _isSearchFocused ? 2.0 : 1.0,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color:
-                      _isSearchFocused
-                          ? AppColors.primaryGreen.withOpacity(0.1)
-                          : Colors.black.withOpacity(0.1),
-                  blurRadius: _shadowAnimation.value,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Row(
+          SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AnimatedBuilder(
-                  animation: _typingAnimationController,
-                  builder: (context, child) {
-                    return Transform.scale(
-                      scale:
-                          _isTyping
-                              ? 1.0 + (_typingAnimation.value * 0.1)
-                              : 1.0,
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        child: Icon(
-                          Icons.search,
-                          color:
-                              _isSearchFocused
-                                  ? AppColors.primaryGreen
-                                  : AppColors.textSecondary,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(width: Dimensions.spaceS),
-                Expanded(
-                  child: TextField(
-                    controller: _searchController,
-                    focusNode: _searchFocusNode,
-                    decoration: const InputDecoration(
-                      hintText: Strings.searchCampsites,
-                      border: InputBorder.none,
-                      isDense: true,
-                      filled: false,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                    ),
-                    onChanged: (query) {
-                      setState(() {
-                        _searchQuery = query;
-                        _isTyping = query.isNotEmpty;
-                      });
-
-                      if (query.isNotEmpty) {
-                        _typingAnimationController.repeat(reverse: true);
-                      } else {
-                        _typingAnimationController.stop();
-                        _typingAnimationController.reset();
-                      }
-                    },
-                  ),
-                ),
+                const SizedBox(height: 20),
+                _buildFilterChips(),
                 if (_searchQuery.isNotEmpty)
-                  AnimatedScale(
-                    scale: _searchQuery.isNotEmpty ? 1.0 : 0.0,
-                    duration: const Duration(milliseconds: 150),
-                    child: IconButton(
-                      onPressed: () {
-                        _searchController.clear();
-                        setState(() {
-                          _searchQuery = '';
-                        });
-                      },
-                      icon: Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: AppColors.textSecondary.withOpacity(0.8),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.close,
-                          color: AppColors.surfaceWhite,
-                          size: 12,
-                        ),
-                      ),
-                    ),
-                  ),
+                  _buildSearchResults(campsiteState, _searchQuery)
+                else ...[
+                  _buildFeaturedCampsites(campsiteState),
+                  _buildAllCampsites(campsiteState),
+                ],
               ],
             ),
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildFilterChips(
-    BuildContext context,
-    bool hasActiveFilters,
-    int activeFilterCount,
-  ) {
-    return Container(
-      alignment: Alignment.centerLeft,
-      margin: const EdgeInsets.only(
-        left: Dimensions.paddingM,
-        right: Dimensions.paddingM,
-        bottom: Dimensions.spaceS,
-      ),
-      child: Wrap(
-        spacing: Dimensions.spaceS,
-        children: [
-          FilterChipButton(
-            icon: Icons.calendar_today,
-            label: 'Dates',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Date picker coming soon!')),
-              );
-            },
-          ),
-          FilterChipButton(
-            icon: Icons.people,
-            label: 'Guests',
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Guest picker coming soon!')),
-              );
-            },
-          ),
-          FilterChipButton(
-            icon: Icons.tune,
-            label:
-                hasActiveFilters ? 'Filters ($activeFilterCount)' : 'Filters',
-            isActive: hasActiveFilters,
-            onTap: () => showFilterBottomSheet(context),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCampsiteList(CampsiteState state, String searchQuery) {
-    if (state.isLoading && state.campsites.isEmpty) {
-      return const Center(
-        child: LoadingWidget(message: 'Loading campsites...'),
+  Widget _buildWebLayout(campsiteState) {
+    return Scaffold(
+      backgroundColor: AppColors.backgroundWhite,
+      body: Column(
+        children: [
+          CampsiteHeader(
+            searchController: _searchController,
+            searchQuery: _searchQuery,
+            onSearchChanged: _handleSearchChanged,
+            onSearchClear: _handleSearchClear,
+          ),
+          Expanded(
+            child: ResponsiveConstraints(
+              child: Row(
+                children: [
+                  // Sidebar with filters
+                  Container(
+                    width: 280,
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      border: Border(
+                        right: BorderSide(color: AppColors.border),
+                      ),
+                    ),
+                    child: const CampsiteFilterSidebar(),
+                  ),
+                  // Main content area
+                  Expanded(
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverPadding(
+                          padding: const EdgeInsets.all(24),
+                          sliver: SliverToBoxAdapter(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (_searchQuery.isNotEmpty)
+                                  _buildWebSearchResults(campsiteState)
+                                else ...[
+                                  _buildWebFeaturedSection(campsiteState),
+                                  const SizedBox(height: 32),
+                                  _buildWebAllCampsites(campsiteState),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildFilterChips() {
+    final filterState = ref.watch(filterControllerProvider);
+
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 8.0),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildFilterChip(
+              'Nearby',
+              Icons.location_on,
+              isSelected: true,
+              onTap: () {},
+            ),
+            const SizedBox(width: 12),
+            _buildFilterChip(
+              'Lakeside',
+              Icons.water_drop,
+              isSelected: filterState.isCloseToWater == true,
+              onTap: () {
+                final newValue =
+                    filterState.isCloseToWater == true ? null : true;
+                ref
+                    .read(filterControllerProvider.notifier)
+                    .updateWaterProximity(newValue);
+                ref
+                    .read(campsiteControllerProvider.notifier)
+                    .applyFilters(ref.read(filterControllerProvider));
+              },
+            ),
+            const SizedBox(width: 12),
+            _buildFilterChip(
+              'Campfire',
+              Icons.local_fire_department,
+              isSelected: filterState.isCampFireAllowed == true,
+              onTap: () {
+                final newValue =
+                    filterState.isCampFireAllowed == true ? null : true;
+                ref
+                    .read(filterControllerProvider.notifier)
+                    .updateCampfireAllowed(newValue);
+                ref
+                    .read(campsiteControllerProvider.notifier)
+                    .applyFilters(ref.read(filterControllerProvider));
+              },
+            ),
+            const SizedBox(width: 12),
+            _buildFilterChip(
+              'More',
+              Icons.tune,
+              isSelected: ref.watch(hasActiveFiltersProvider),
+              onTap: () => showFilterBottomSheet(context),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip(
+    String label,
+    IconData icon, {
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? AppColors.primary : AppColors.surface,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: isSelected ? AppColors.primary : AppColors.border,
+            width: 1.5,
+          ),
+          boxShadow:
+              isSelected
+                  ? [
+                    BoxShadow(
+                      color: AppColors.primary.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ]
+                  : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: 18,
+              color: isSelected ? Colors.white : AppColors.textSecondary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              label,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: isSelected ? Colors.white : AppColors.textPrimary,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeaturedCampsites(CampsiteState state) {
+    if (state.campsites.isEmpty) return const SizedBox.shrink();
+
+    final featuredCampsites =
+        state.filteredCampsites
+            .take(ResponsiveLayout.isDesktop(context) ? 6 : 8)
+            .toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Featured Campsites',
+                style: AppTextStyles.headingMedium.copyWith(fontSize: 20),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  'See all',
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (ResponsiveLayout.isDesktop(context))
+          CampsiteGridLayout(
+            campsites: featuredCampsites,
+            onCampsiteSelected: _navigateToCampsiteDetail,
+            layout: CampsiteCardLayout.grid,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+          )
+        else
+          SizedBox(
+            height: 320,
+            child: ListView.builder(
+              padding: const EdgeInsets.only(left: 20),
+              scrollDirection: Axis.horizontal,
+              itemCount: featuredCampsites.length,
+              itemBuilder: (context, index) {
+                final campsite = featuredCampsites[index];
+                return CampsiteCardUnified(
+                  campsite: campsite,
+                  layout: CampsiteCardLayout.featured,
+                  onTap: () => _navigateToCampsiteDetail(campsite.id),
+                );
+              },
+            ),
+          ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildAllCampsites(CampsiteState state) {
+    if (state.campsites.isEmpty) return const SizedBox.shrink();
+
+    final allCampsites = state.filteredCampsites;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          child: Text(
+            ResponsiveLayout.isDesktop(context)
+                ? 'All Campsites (${allCampsites.length})'
+                : 'All Campsites',
+            style:
+                ResponsiveLayout.isDesktop(context)
+                    ? AppTextStyles.headingLarge.copyWith(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    )
+                    : AppTextStyles.headingMedium.copyWith(fontSize: 20),
+          ),
+        ),
+        CampsiteGridLayout(
+          campsites: allCampsites,
+          onCampsiteSelected: _navigateToCampsiteDetail,
+          layout: CampsiteCardLayout.vertical,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+        ),
+        const SizedBox(height: 40),
+      ],
+    );
+  }
+
+  Widget _buildSearchResults(CampsiteState state, String searchQuery) {
+    if (state.isLoading) {
+      return const Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Center(child: LoadingWidget(message: 'Searching campsites...')),
       );
     }
 
     if (state.errorMessage != null) {
-      return Center(
-        child: AppErrorWidget(
-          message: state.errorMessage!,
-          onRetry: () {
-            ref.read(campsiteControllerProvider.notifier).loadCampsites();
-          },
+      return Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: AppErrorWidget(
+            message: state.errorMessage!,
+            onRetry: () {
+              ref.read(campsiteControllerProvider.notifier).loadCampsites();
+            },
+          ),
         ),
       );
     }
 
     final filteredCampsites =
         state.filteredCampsites.where((campsite) {
-          if (searchQuery.isEmpty) return true;
           return campsite.matchesSearchTerm(searchQuery);
         }).toList();
 
-    if (filteredCampsites.isEmpty) {
-      return _buildEmptyState(searchQuery);
-    }
-
-    return RefreshIndicator(
-      onRefresh: () async {
-        await ref.read(campsiteControllerProvider.notifier).refreshCampsites();
-      },
-      child: ResponsiveLayout(
-        mobile: _buildMobileList(filteredCampsites),
-        desktop: _buildGridView(filteredCampsites),
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
+          child: Text(
+            'Search Results (${filteredCampsites.length})',
+            style: AppTextStyles.headingMedium.copyWith(fontSize: 20),
+          ),
+        ),
+        if (filteredCampsites.isEmpty)
+          _buildEmptySearchState(searchQuery)
+        else
+          CampsiteGridLayout(
+            campsites: filteredCampsites,
+            onCampsiteSelected: _navigateToCampsiteDetail,
+            layout:
+                ResponsiveLayout.isDesktop(context)
+                    ? CampsiteCardLayout.grid
+                    : CampsiteCardLayout.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+          ),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
-  Widget _buildMobileList(List<dynamic> campsites) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: Dimensions.paddingS),
-      itemCount: campsites.length,
-      itemBuilder: (context, index) {
-        final campsite = campsites[index];
-        return CampsiteCard(
-          campsite: campsite,
-          onTap: () => _navigateToCampsiteDetail(campsite.id),
-          isGridView: false,
-        );
-      },
-    );
-  }
-
-  Widget _buildGridView(List<dynamic> campsites) {
-    return GridView.builder(
-      padding: const EdgeInsets.all(Dimensions.paddingM),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: ResponsiveLayout.getColumns(context),
-        crossAxisSpacing: Dimensions.paddingM,
-        mainAxisSpacing: Dimensions.paddingM,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: campsites.length,
-      itemBuilder: (context, index) {
-        final campsite = campsites[index];
-        return CampsiteCard(
-          campsite: campsite,
-          onTap: () => _navigateToCampsiteDetail(campsite.id),
-          isGridView: true,
-        );
-      },
-    );
-  }
-
-  Widget _buildEmptyState(String searchQuery) {
-    final theme = Theme.of(context);
-    final textTheme = theme.textTheme;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(Dimensions.paddingL),
+  Widget _buildEmptySearchState(String searchQuery) {
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              searchQuery.isNotEmpty ? Icons.search_off : Icons.explore_off,
-              size: 64,
-              color: AppColors.textSecondary,
-            ),
-            const SizedBox(height: Dimensions.spaceM),
+            Icon(Icons.search_off, size: 64, color: AppColors.textSecondary),
+            const SizedBox(height: 16),
             Text(
-              searchQuery.isNotEmpty
-                  ? 'No campsites found for "$searchQuery"'
-                  : 'No campsites match your filters',
-              style: textTheme.titleMedium?.copyWith(
+              'No campsites found for "$searchQuery"',
+              style: AppTextStyles.headingSmall.copyWith(
                 color: AppColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Dimensions.spaceS),
+            const SizedBox(height: 8),
             Text(
-              searchQuery.isNotEmpty
-                  ? 'Try adjusting your search terms or filters'
-                  : 'Try adjusting your filter criteria',
-              style: textTheme.bodyMedium?.copyWith(
-                color: AppColors.textSecondary,
-              ),
+              'Try adjusting your search terms or browse our recommendations below',
+              style: AppTextStyles.bodyMedium,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: Dimensions.spaceL),
-            if (ref.watch(hasActiveFiltersProvider))
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(filterControllerProvider.notifier).clearAllFilters();
-                  ref.read(campsiteControllerProvider.notifier).clearFilters();
-                },
-                child: const Text('Clear Filters'),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () {
+                _searchController.clear();
+                setState(() {
+                  _searchQuery = '';
+                });
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
               ),
+              child: Text(
+                'Clear Search',
+                style: AppTextStyles.button.copyWith(color: Colors.white),
+              ),
+            ),
           ],
         ),
       ),
@@ -446,167 +466,274 @@ class _CampsiteListPageState extends ConsumerState<CampsiteListPage>
   void _navigateToCampsiteDetail(String campsiteId) {
     context.go('/campsite-list/campsite/$campsiteId');
   }
-}
 
-class CompactCampsiteListView extends ConsumerWidget {
-  const CompactCampsiteListView({
-    super.key,
-    required this.campsites,
-    this.onCampsiteTap,
-  });
+  Widget _buildWebSearchResults(CampsiteState campsiteState) {
+    final filteredCampsites =
+        campsiteState.campsites.where((campsite) {
+          return campsite.matchesSearchTerm(_searchQuery);
+        }).toList();
 
-  final List<dynamic> campsites;
-  final Function(String)? onCampsiteTap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    if (campsites.isEmpty) {
-      return const Center(
-        child: Text(
-          'No campsites available',
-          style: TextStyle(color: AppColors.textSecondary),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Search Results (${filteredCampsites.length})',
+          style: AppTextStyles.headingLarge.copyWith(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      );
-    }
+        const SizedBox(height: 24),
+        if (filteredCampsites.isEmpty)
+          _buildEmptySearchState(_searchQuery)
+        else
+          _buildWebCampsiteGrid(filteredCampsites),
+      ],
+    );
+  }
 
-    return ListView.builder(
-      itemCount: campsites.length,
-      itemBuilder: (context, index) {
-        final campsite = campsites[index];
-        return CompactCampsiteCard(
-          campsite: campsite,
-          onTap: () => onCampsiteTap?.call(campsite.id),
+  Widget _buildWebFeaturedSection(campsiteState) {
+    if (campsiteState.campsites.isEmpty) return const SizedBox.shrink();
+
+    final featuredCampsites = campsiteState.filteredCampsites.take(6).toList();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Featured Campsites',
+              style: AppTextStyles.headingLarge.copyWith(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                'See all featured',
+                style: AppTextStyles.bodyLarge.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 24),
+        _buildWebCampsiteGrid(featuredCampsites),
+      ],
+    );
+  }
+
+  Widget _buildWebAllCampsites(campsiteState) {
+    if (campsiteState.campsites.isEmpty) return const SizedBox.shrink();
+
+    final allCampsites = campsiteState.filteredCampsites;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'All Campsites (${allCampsites.length})',
+          style: AppTextStyles.headingLarge.copyWith(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 24),
+        _buildWebCampsiteGrid(allCampsites),
+      ],
+    );
+  }
+
+  Widget _buildWebCampsiteGrid(List<dynamic> campsites) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
+        final itemWidth = (constraints.maxWidth - (columns - 1) * 24) / columns;
+
+        return Wrap(
+          spacing: 24,
+          runSpacing: 24,
+          children:
+              campsites.map((campsite) {
+                return SizedBox(
+                  width: itemWidth,
+                  child: _buildWebCampsiteCard(campsite),
+                );
+              }).toList(),
         );
       },
     );
   }
-}
 
-class CampsiteSearchBar extends StatefulWidget {
-  const CampsiteSearchBar({
-    super.key,
-    this.onSearchChanged,
-    this.initialValue = '',
-  });
-
-  final ValueChanged<String>? onSearchChanged;
-  final String initialValue;
-
-  @override
-  State<CampsiteSearchBar> createState() => _CampsiteSearchBarState();
-}
-
-class _CampsiteSearchBarState extends State<CampsiteSearchBar> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController(text: widget.initialValue);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surfaceWhite,
-        borderRadius: BorderRadius.circular(Dimensions.radiusM),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 2,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      child: TextField(
-        controller: _controller,
-        onChanged: widget.onSearchChanged,
-        decoration: InputDecoration(
-          hintText: 'Search campsites...',
-          prefixIcon: const Icon(Icons.search, color: AppColors.textSecondary),
-          suffixIcon:
-              _controller.text.isNotEmpty
-                  ? IconButton(
-                    onPressed: () {
-                      _controller.clear();
-                      widget.onSearchChanged?.call('');
-                    },
-                    icon: const Icon(
-                      Icons.clear,
-                      color: AppColors.textSecondary,
-                    ),
-                  )
-                  : null,
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-            horizontal: Dimensions.paddingM,
-            vertical: Dimensions.paddingS,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FilterChipButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool isActive;
-  final VoidCallback onTap;
-
-  const FilterChipButton({
-    required this.icon,
-    required this.label,
-    required this.onTap,
-    this.isActive = false,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(24),
-      onTap: onTap,
+  Widget _buildWebCampsiteCard(dynamic campsite) {
+    return GestureDetector(
+      onTap: () => _navigateToCampsiteDetail(campsite.id),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        height: 320,
         decoration: BoxDecoration(
-          color:
-              isActive
-                  ? AppColors.primaryGreen.withOpacity(0.08)
-                  : AppColors.surfaceWhite,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: isActive ? AppColors.primaryGreen : AppColors.border,
-            width: 1.2,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 18,
-              color:
-                  isActive ? AppColors.primaryGreen : AppColors.textSecondary,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              label,
-              style: TextStyle(
-                color:
-                    isActive ? AppColors.primaryGreen : AppColors.textSecondary,
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-              ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow,
+              blurRadius: 12,
+              offset: const Offset(0, 4),
             ),
           ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Stack(
+            children: [
+              // Background Image
+              Positioned.fill(
+                child: Image.network(
+                  campsite.photo,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: AppColors.border,
+                      child: Icon(
+                        Icons.image_not_supported,
+                        color: AppColors.textSecondary,
+                        size: 48,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // Favorite Button
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.9),
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: 20,
+                    color: Colors.grey[600],
+                  ),
+                ),
+              ),
+              // Bottom Content Overlay
+              Positioned(
+                left: 8,
+                right: 8,
+                bottom: 8,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Title and Price Row
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                campsite.label,
+                                style: AppTextStyles.headingMedium.copyWith(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              campsite.formattedPrice,
+                              style: AppTextStyles.headingMedium.copyWith(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        // Location Row
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              size: 16,
+                              color: AppColors.primary,
+                            ),
+                            const SizedBox(width: 4),
+                            Expanded(
+                              child: Text(
+                                'National Park',
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  color: Colors.grey[600],
+                                  fontSize: 12,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        // Rating Row
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.star,
+                              color: AppColors.primary,
+                              size: 16,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '4.9',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '(2.8k)',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey[600],
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

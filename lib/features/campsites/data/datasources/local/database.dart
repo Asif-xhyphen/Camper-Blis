@@ -1,7 +1,7 @@
-import 'package:camper_blis/features/campsites/data/datasources/local/native.dart'
-    as native;
-// import 'package:camper_blis/features/campsites/data/datasources/local/web.dart'
-//     as web;
+// import 'package:camper_blis/features/campsites/data/datasources/local/native.dart'
+//     as native;
+import 'package:camper_blis/features/campsites/data/datasources/local/web.dart'
+    as web;
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 
@@ -188,8 +188,8 @@ class CampsiteDatabase extends _$CampsiteDatabase {
 
 openConnection() {
   // import respoctive connect from web.dart or native.dart
-  // if (kIsWeb) {
-  //   return web.connect();
-  // }
-  return native.connect();
+  if (kIsWeb) {
+    return web.connect();
+  }
+  // return native.connect();
 }
