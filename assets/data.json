@@ -1,0 +1,752 @@
+[
+  {
+    "createdAt": "2022-09-11T14:25:09.496Z",
+    "label": "quibusdam",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 96060.37,
+      "long": 72330.52
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 78508.23,
+    "suitableFor": [],
+    "id": "1"
+  },
+  {
+    "createdAt": "2022-09-11T15:04:21.217Z",
+    "label": "nobis",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 32955.74,
+      "long": 93715.96
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 80694.76,
+    "suitableFor": [],
+    "id": "2"
+  },
+  {
+    "createdAt": "2022-09-11T16:46:32.857Z",
+    "label": "quisquam",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 69947.09,
+      "long": 70830.62
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 41518.55,
+    "suitableFor": [],
+    "id": "3"
+  },
+  {
+    "createdAt": "2022-09-11T17:22:16.586Z",
+    "label": "cupiditate",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 79291.33,
+      "long": 59121.23
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 34419.07,
+    "suitableFor": [],
+    "id": "4"
+  },
+  {
+    "createdAt": "2022-09-11T13:54:44.468Z",
+    "label": "quis",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 12518.91,
+      "long": 10162.85
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 75631.2,
+    "suitableFor": [],
+    "id": "5"
+  },
+  {
+    "createdAt": "2022-09-11T09:51:05.066Z",
+    "label": "et",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 69565.59,
+      "long": 57434.18
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 38451.58,
+    "suitableFor": [],
+    "id": "6"
+  },
+  {
+    "createdAt": "2022-09-12T07:36:17.879Z",
+    "label": "et",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 61456.46,
+      "long": 34766.58
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 58354.94,
+    "suitableFor": [],
+    "id": "7"
+  },
+  {
+    "createdAt": "2022-09-11T10:27:19.989Z",
+    "label": "porro",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 41224.77,
+      "long": 17168.59
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 40088.99,
+    "suitableFor": [],
+    "id": "8"
+  },
+  {
+    "createdAt": "2022-09-11T17:16:26.009Z",
+    "label": "ut",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 90536.99,
+      "long": 84230.61
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 88511.81,
+    "suitableFor": [],
+    "id": "9"
+  },
+  {
+    "createdAt": "2022-09-11T22:50:37.791Z",
+    "label": "vel",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 28877.36,
+      "long": 51900.3
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 6930.03,
+    "suitableFor": [],
+    "id": "10"
+  },
+  {
+    "createdAt": "2022-09-12T07:54:12.574Z",
+    "label": "est",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 1046.57,
+      "long": 92735.85
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 39048.6,
+    "suitableFor": [],
+    "id": "11"
+  },
+  {
+    "createdAt": "2022-09-11T14:47:02.723Z",
+    "label": "vitae",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 62289.46,
+      "long": 12671.94
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 55605.52,
+    "suitableFor": [],
+    "id": "12"
+  },
+  {
+    "createdAt": "2022-09-12T06:29:05.411Z",
+    "label": "eaque",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 99409.92,
+      "long": 45448.66
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 33543.74,
+    "suitableFor": [],
+    "id": "13"
+  },
+  {
+    "createdAt": "2022-09-11T23:27:07.030Z",
+    "label": "qui",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 16743.19,
+      "long": 98737.94
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 47024.18,
+    "suitableFor": [],
+    "id": "14"
+  },
+  {
+    "createdAt": "2022-09-12T03:55:10.208Z",
+    "label": "illum",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 27930.2,
+      "long": 4606.28
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 40623.58,
+    "suitableFor": [],
+    "id": "15"
+  },
+  {
+    "createdAt": "2022-09-12T03:38:49.860Z",
+    "label": "et",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 24007.96,
+      "long": 47269.42
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 69128.21,
+    "suitableFor": [],
+    "id": "16"
+  },
+  {
+    "createdAt": "2022-09-11T15:22:36.678Z",
+    "label": "dolorem",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 63765.84,
+      "long": 30497.68
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 13836.91,
+    "suitableFor": [],
+    "id": "17"
+  },
+  {
+    "createdAt": "2022-09-11T23:23:29.353Z",
+    "label": "expedita",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 61848.11,
+      "long": 85051.71
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 1635.34,
+    "suitableFor": [],
+    "id": "18"
+  },
+  {
+    "createdAt": "2022-09-12T00:18:37.844Z",
+    "label": "mollitia",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 11900.37,
+      "long": 20266.61
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 75688.56,
+    "suitableFor": [],
+    "id": "19"
+  },
+  {
+    "createdAt": "2022-09-11T16:42:11.416Z",
+    "label": "possimus",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 41432.68,
+      "long": 24154.69
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 13591.37,
+    "suitableFor": [],
+    "id": "20"
+  },
+  {
+    "createdAt": "2022-09-11T09:40:56.460Z",
+    "label": "dolorem",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 66349.01,
+      "long": 42179.45
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 64304.2,
+    "suitableFor": [],
+    "id": "21"
+  },
+  {
+    "createdAt": "2022-09-12T02:57:55.111Z",
+    "label": "est",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 92862.67,
+      "long": 80916.58
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 14479.39,
+    "suitableFor": [],
+    "id": "22"
+  },
+  {
+    "createdAt": "2022-09-11T20:06:25.518Z",
+    "label": "autem",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 76718.91,
+      "long": 9323.1
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 42439.75,
+    "suitableFor": [],
+    "id": "23"
+  },
+  {
+    "createdAt": "2022-09-11T22:50:32.358Z",
+    "label": "quas",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 24311.06,
+      "long": 56707.98
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 65309.75,
+    "suitableFor": [],
+    "id": "24"
+  },
+  {
+    "createdAt": "2022-09-12T05:55:38.329Z",
+    "label": "enim",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 46456.16,
+      "long": 11075.94
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 79908.18,
+    "suitableFor": [],
+    "id": "25"
+  },
+  {
+    "createdAt": "2022-09-11T21:50:29.256Z",
+    "label": "vitae",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 71152.73,
+      "long": 76150.3
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 36547.51,
+    "suitableFor": [],
+    "id": "26"
+  },
+  {
+    "createdAt": "2022-09-11T16:43:47.278Z",
+    "label": "in",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 92751.09,
+      "long": 6022.87
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 49141.08,
+    "suitableFor": [],
+    "id": "27"
+  },
+  {
+    "createdAt": "2022-09-11T17:09:34.339Z",
+    "label": "officiis",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 49984.04,
+      "long": 66642.25
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 23472.57,
+    "suitableFor": [],
+    "id": "28"
+  },
+  {
+    "createdAt": "2022-09-11T15:32:54.226Z",
+    "label": "quasi",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 50526.36,
+      "long": 35602.55
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 16849.68,
+    "suitableFor": [],
+    "id": "29"
+  },
+  {
+    "createdAt": "2022-09-11T21:56:10.786Z",
+    "label": "commodi",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 83782.23,
+      "long": 15242.44
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 25215.13,
+    "suitableFor": [],
+    "id": "30"
+  },
+  {
+    "createdAt": "2022-09-11T18:24:44.103Z",
+    "label": "reiciendis",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 37253.79,
+      "long": 26418.61
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 46618.6,
+    "suitableFor": [],
+    "id": "31"
+  },
+  {
+    "createdAt": "2022-09-11T23:07:31.172Z",
+    "label": "deleniti",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 93997.86,
+      "long": 91944.98
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 76870.42,
+    "suitableFor": [],
+    "id": "32"
+  },
+  {
+    "createdAt": "2022-09-11T22:26:45.581Z",
+    "label": "rerum",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 47744.42,
+      "long": 93813.13
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 75508.72,
+    "suitableFor": [],
+    "id": "33"
+  },
+  {
+    "createdAt": "2022-09-11T22:25:57.079Z",
+    "label": "et",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 73844.81,
+      "long": 25336.28
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 52560.9,
+    "suitableFor": [],
+    "id": "34"
+  },
+  {
+    "createdAt": "2022-09-11T15:26:07.999Z",
+    "label": "et",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 26104.19,
+      "long": 25777.04
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 42309.53,
+    "suitableFor": [],
+    "id": "35"
+  },
+  {
+    "createdAt": "2022-09-11T15:04:55.635Z",
+    "label": "facilis",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 72869.42,
+      "long": 11206.2
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 37539.37,
+    "suitableFor": [],
+    "id": "36"
+  },
+  {
+    "createdAt": "2022-09-11T19:06:57.720Z",
+    "label": "illo",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 12756.96,
+      "long": 94469.98
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 22752.55,
+    "suitableFor": [],
+    "id": "37"
+  },
+  {
+    "createdAt": "2022-09-11T15:55:51.971Z",
+    "label": "vel",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 97341.59,
+      "long": 23212.75
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 17383.15,
+    "suitableFor": [],
+    "id": "38"
+  },
+  {
+    "createdAt": "2022-09-11T18:23:29.159Z",
+    "label": "commodi",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 15806.35,
+      "long": 14483.53
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 41202.39,
+    "suitableFor": [],
+    "id": "39"
+  },
+  {
+    "createdAt": "2022-09-12T06:39:17.845Z",
+    "label": "minima",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 84917.18,
+      "long": 64531.77
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 25350.3,
+    "suitableFor": [],
+    "id": "40"
+  },
+  {
+    "createdAt": "2022-09-11T15:42:32.284Z",
+    "label": "natus",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 22939.06,
+      "long": 99486.19
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 68123.44,
+    "suitableFor": [],
+    "id": "41"
+  },
+  {
+    "createdAt": "2022-09-12T07:03:01.808Z",
+    "label": "eius",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 78050.64,
+      "long": 28270.5
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 45339.53,
+    "suitableFor": [],
+    "id": "42"
+  },
+  {
+    "createdAt": "2022-09-11T16:18:48.978Z",
+    "label": "suscipit",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 77215.68,
+      "long": 25528.61
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 29338.41,
+    "suitableFor": [],
+    "id": "43"
+  },
+  {
+    "createdAt": "2022-09-11T20:07:52.963Z",
+    "label": "laborum",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 14183.05,
+      "long": 62122.81
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 74592.54,
+    "suitableFor": [],
+    "id": "44"
+  },
+  {
+    "createdAt": "2022-09-11T17:36:30.431Z",
+    "label": "repellendus",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 72967.57,
+      "long": 89615.7
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 14166.18,
+    "suitableFor": [],
+    "id": "45"
+  },
+  {
+    "createdAt": "2022-09-11T16:38:26.800Z",
+    "label": "quod",
+    "photo": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 78706.22,
+      "long": 99638.97
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 18419.65,
+    "suitableFor": [],
+    "id": "46"
+  },
+  {
+    "createdAt": "2022-09-11T20:25:37.054Z",
+    "label": "ut",
+    "photo": "https://images.unsplash.com/photo-1522143049013-2514fdf1b7ee?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 47148.51,
+      "long": 66362.89
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 47157.35,
+    "suitableFor": [],
+    "id": "47"
+  },
+  {
+    "createdAt": "2022-09-11T19:33:22.965Z",
+    "label": "temporibus",
+    "photo": "https://images.unsplash.com/photo-1468071174046-657d9d351a40?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 93747.79,
+      "long": 68537.79
+    },
+    "isCloseToWater": false,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 15128.94,
+    "suitableFor": [],
+    "id": "48"
+  },
+  {
+    "createdAt": "2022-09-11T18:05:12.838Z",
+    "label": "sint",
+    "photo": "https://images.unsplash.com/photo-1513938709626-033611b8cc03?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 43026.16,
+      "long": 93040.87
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": false,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 58159.57,
+    "suitableFor": [],
+    "id": "49"
+  },
+  {
+    "createdAt": "2022-09-11T17:14:18.409Z",
+    "label": "voluptatum",
+    "photo": "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1470&auto=format&fit=crop&ix",
+    "geoLocation": {
+      "lat": 82990.99,
+      "long": 14025.47
+    },
+    "isCloseToWater": true,
+    "isCampFireAllowed": true,
+    "hostLanguages": ["en", "de"],
+    "pricePerNight": 21946.99,
+    "suitableFor": [],
+    "id": "50"
+  }
+]
